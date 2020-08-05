@@ -1,12 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html scroll-behavior="smooth">
 <head>
-    <link rel = "stylesheet" type = "text/css" href = "style.css">
-    <title> About me </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="media/cube.png">
+    <title> Calix Tang </title>
 </head>
 
-<body>
-    <h1> Calix Tang's Wesbite </h1>
-    <p> I'm a rising high school senior from California. </p>
+<body onresize="resize_handle()">
+    <div class="wrap">
+        <header class = "topbar"> 
+            <div class = "left-bar">
+                <a href = "index.html" class = "btn">
+                    <img class = "btn" class = "home" src = 'media/home.png'>
+                </a>
+            </div>
+            <div class = "right-bar">
+                <ul>
+                    <li>
+                        <a href = "https://www.github.com/CalixTang" class = "fa" target = "_blank" rel = "noopener">
+                            <div class = "fa-github btn"></div>
+                        </a>
+                    </li>
+                        <a href = "https:/www.linkedin.com/in/calix-tang-987854187/" class = "fa" target = "_blank" rel = "noopener">
+                            <div class = "fa-linkedin btn"></div>
+                        </a>
+                    <li>
+                        <a href = "about.html" class = "fa toptext"> 
+                            <div class = "btn toptext"><b>About</b></div>
+                        </a>
+                    </li>  
+                    <li>
+                        <a href = "interests.html" class = "fa toptext">
+                            <div class = "btn toptext"><b>Interests</b></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href = "projects.html" class = "fa toptext">
+                            <div class = "btn toptext"><b>Projects</b></div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <div class="background">
+            <div class = "horizontal-box">
+                <div class = "text-wrapper">
+                    <div class="text-intro">
+                        <h1> Hi! My name's Calix. </h1>
+                        <br>
+                        <h2> Looks like you found my website. </h2>
+                        <h2> Take a look around. </h2>
+                        <br>
+                        <p><b>Please hire me.</b></p>
+                    </div>
+                    <div class="contact-info">
+                        <h3> Contact Info: </h3>
+                        <br>
+                        <div>
+                            <p class = "line"> • Email: </p>
+                            <a href = "mailto:calix.tang@gmail.com" target = "_blank" rel = "noopener" class = "email line">
+                                <p>calix.tang@gmail.com</p>
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class = "box-image">
+                    <img class = "img-me" src = 'media/Circled.png'>
+                </div>
+            </div>
+            <div class = "latest-work">
+                <h1 id = "latest-work-title">My Latest Work</h1>
+                <div class ="latest-video-wrapper">
+                    <a href = "projects.html">
+                        <video class = "video-box" autoplay muted loop>
+                            <source src = 'media/deductive_graph.mp4' type="video/mp4">
+                    </a>
+                </div>
+                <h2 class = "latest-work-name">Filtering in Graphs</h2> <!--Update with latest work?-->
+            </div>
+        </div> 
+    </div>
+    <script src = "main.js"></script>
 </body>
 </html>
