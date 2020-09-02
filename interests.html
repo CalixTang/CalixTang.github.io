@@ -6,7 +6,7 @@
     <link rel="icon" href="media/cube.png">
     <title> Calix Tang </title>
 </head>
-<body onresize="resize_handle()">
+<body class = "preload">
     <div class="wrap">
         <header class = "topbar"> 
             <div class = "left-bar">
@@ -21,7 +21,7 @@
                             <div class = "fa-github btn"></div>
                         </a>
                     </li>
-                        <a href = "https:/www.linkedin.com/in/calix-tang-987854187/" class = "fa" target = "_blank" rel = "noopener">
+                        <a href = "https://www.linkedin.com/in/calix-tang-987854187" class = "fa" target = "_blank" rel = "noopener">
                             <div class = "fa-linkedin btn"></div>
                         </a>
                     <li>
@@ -43,25 +43,81 @@
             </div>
         </header>
         <div class = "background">
+            <!-- <img class = "background-img" src = 'media/..... .jpg'> -->
             <div class = "intro">
-                <h1> What I like to do </h1>    
+                <h1> My Hobbies and Interests </h1>    
             </div>
             <div class = "dropdown-wrapper">
                 <section class = "Cubing">
-                    <h2> </h2>
-                    <ul>
-                        <li>
-                            <p class = "padded"> • asdf</p>
-                        </li>
-                    </ul>
+                    <div class="heading">
+                        <img src="media/cube-logo.png" alt="" class="cubing-logo">
+                        <div class="name">Cubing</div>
+                        <div class="up">−</div>
+                        <div class="down">+</div>
+                    </div>
+                    <div class="ov">   
+                        <p class = "text"> 
+                        I like solving twisty puzzles. I started in sixth grade, but got somewhat serious about it during 9th grade. My favorite puzzles are the classic 3x3, the shapeshifting Square-One, and a dodecahedron called Megaminx. During quarantine, I've gotten really interested in 3x3 blindfolded.
+                        <br><br>
+                        To bring cubing a wider community and to help my fellow cubers connect, I founded Homestead High School's Cubing Club with a friend. I've taught members the beginner's method, taught advanced solvers new tricks and ideas, and introduced experienced cubers to new events/puzzles. Cubing Club hosted a school-open tournament in the Fall of 2019 that drew over 20 participants, regulars and newcomers alike!
+                        <br><br>
+                        My Cubing achievements:
+                        <ul class = "text">
+                            <li>• Currently 9th in the world for Square-One average. <a href = 'https://www.youtube.com/watch?v=p14hd7s3HTg' class = "link"> Video here.</a> </li> 
+                            <li>• Top 1000 in most events: Megaminx - 157, 3x3 One-Handed - 269, 3x3 - 581, 4x4-6x6 - 800s-900s</li>
+                            <li>• Square-One Finalist - US Nationals 2019</li>
+                        </ul>
+                        </p>
+                    </div> 
                 </section>
-                <section class = "Coding">
+                <section class = "Programming">
+                    <div class="heading">
+                        <img src="media/laptop-logo.png" alt="" class="cubing-logo">
+                        <div class="name">Programming</div>
+                        <div class="up">−</div>
+                        <div class="down">+</div>
+                    </div>
+                    <div class="ov">   
+                        <p class = "text"> 
+                        I design and write code in my free time because I find it enjoyable and useful. Most of my projects involve programming in some way, shape, or form. It's also a nice skill to have in today's day and age.
+                        <br><br>
+                        Combined with the next generation of robotics, programming has the potential to transform our society again. We're seeing the Fourth Industrial Revolution in automation of traditional manufacturing and production, but what about incorporating robots into more places in society? Automated cars, delivery, automated search-and-rescue, maybe even robot companions. I'm really excited to see what path robotics takes and I hope to help guide it down the right one.
+                        <br><br>
+                        Languages I've learned:
+                        <ul class = "text">
+                            <li>• Java (4 yr)</li>
+                            <li>• HTML (4 yr)</li>
+                            <li>• Python (2yr)</li>
+                            <li>• Arduino (2yr)</li>
+                            <li>• MATLAB/Octave (2yr)</li>
+                            <li>• Javascript (2yr)</li>       
+                        </ul>
+                        </p>
+                    </div> 
                 </section>
-                <section class = "Robots">
+                <section class = "Robotics">
+                    <div class="heading">
+                        <img src="media/robot-logo.png" alt="" class="cubing-logo">
+                        <div class="name">Robotics</div>
+                        <div class="up">−</div>
+                        <div class="down">+</div>
+                    </div>
+                    <div class="ov">   
+                        <p class = "text"> 
+                        I like robots. Ever since I joined my high school's FIRST robotics team, I've wanted to work with them later on. They have immense potential to benefit humanity in the future and I just think it's cool to see them move around and do work with some controlled signals and custom-made hardware. I'm interested particularly in the software side, but I also have experience in hardware.
+                        <br><br>
+                        Within Team 670, I've contributed to every part of the team in my 4 years: grant questions (business/outreach), robot code (software), fabrication and teaching (mechanical), trip logistics (admin), organization and communications (Secretary), even ordering and picking up food for other hungry teenagers (I was free at the time). Participating in FIRST has taught me a lot about STEM, Robots, and how to be a good team player and friend.
+                        <br><br>
+                        Not all of my robotics work has been in FRC! Two summers ago (2018), I was fortunate enough to attend U Penn's ESAP Robotics program. It was a 3-week course, the first week going over basics of robotics and the next two being the main project: making an "orchestra" of robots as a class. With some ESP-32 microprocessors, Arduino code, MDF, breadboards and electronics, servo motors, and solenoids, we all got to design, build, and code robots to play actual instruments. My group played the piano. Check out our perspective of the final showing <a href = "https://www.youtube.com/watch?v=oLY7LcRQD_8" target = "_blank" rel = "noopener" class = "link">here</a>!
+                        </p>
+                    <a class = "james" href = "https://www.youtube.com/watch?v=MHuR0xrRV9k" target = "_blank" rel = "noopener">hi James</a>
+                    </div> 
                 </section>
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" integrity="sha256-spTpc4lvj4dOkKjrGokIrHkJgNA0xMS98Pw9N7ir9oI=" crossorigin="anonymous"></script>
     <script src = "scripts/interests.js"></script>
+    <script src = "preload.js"></script>
 </body>
 </html>

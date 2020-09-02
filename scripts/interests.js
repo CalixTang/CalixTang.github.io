@@ -1,0 +1,32 @@
+$(".Cubing .up").hide();
+$(".Cubing .ov").hide();
+
+$(document).ready(function(){
+    $(".Cubing .heading").click(function(){
+        $(".Cubing .up").toggle(300);
+        $(".Cubing .down").toggle(300);
+        $(".Cubing .ov").toggle(500);
+    });
+  });
+
+$(".Programming .up").hide();
+$(".Programming .ov").hide();
+
+$(document).ready(function(){
+    $(".Programming .heading").click(function(){
+        $(".Programming .up").toggle(300);
+        $(".Programming .down").toggle(300);
+        $(".Programming .ov").toggle(500);
+    });
+  });
+  
+$(".Robotics .up").hide();
+$(".Robotics .ov").hide();
+
+$(document).ready(function(){
+    $(".Robotics .heading").click(function(){
+        $(".Robotics .up").toggle(300);
+        $(".Robotics .down").toggle(300);
+        $(".Robotics .ov").toggle(500);
+    });
+  });

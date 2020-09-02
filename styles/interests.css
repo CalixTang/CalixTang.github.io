@@ -4,6 +4,7 @@
 }
 html {
   scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 .wrap {
   position: absolute;
@@ -25,12 +26,14 @@ html {
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none;  /* Firefox */
   display: grid;
-  height: 295vh;
-  max-height: calc(100% - 50px);
   width: 100vw;
+  min-height: 95vh;
   background: #cccccc;
+  z-index: 0;
 }
+
 body {
+  min-height: 100vh;
   overflow: hidden;
 }
 ul{
@@ -115,9 +118,95 @@ a.fa{
 .line{
   display: inline-block;
 }
-p,a{
-  font-family: 'Titillium Web', Helvetica, sans-serif;  
-  font-size: 2.25vmin;
-}
 
+p,a,li{
+  font-family: 'Titillium Web', Helvetica, sans-serif;  
+  font-size: 2.25 vmin;
+}
+.text{
+  font-family: 'Titillium Web', Helvetica, sans-serif;  
+  color: white;
+}
+.intro{
+  position: relative;
+  height: 15vh;
+}
+.dropdown-wrapper{
+  position: absolute;
+  top: 15vh;
+  height: 95%;
+}
+h1{
+  font-family: 'Titillium Web', Helvetica, sans-serif; 
+  position: relative;
+  padding-left: 8vw;
+  padding-top: 30px;
+  font-size: 250%;
+  text-decoration: underline;
+  color: #FFFFFF;
+}
+h2{
+  font-family: 'Titillium Web', Helvetica, sans-serif; 
+  position: relative;
+  text-decoration: none;
+  color: #FFFFFF;
+  font-size: 200%;
+}
+.name{
+  font-family: 'Titillium Web', Helvetica, sans-serif; 
+  position: relative;
+  font-size: 200%; 
+  color: #FFFFFF;
+  text-decoration: bold;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-left: min(3%, 18px);
+  padding-right: min(3%; 18px);
+}
+.up, .down{
+  font-family: 'Titillium Web', Helvetica, sans-serif; 
+  position: relative;
+  font-size: 200%; 
+  color: #FFFFFF;
+  text-decoration: bold;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: 20px;
+}    
+.cubing-logo{
+  position: relative;
+  height: 50px;
+  padding-left: 5%;
+}    
+section{
+  position: relative;
+  padding-left: 8vw;
+  padding-right: 8vw;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width:84vw;
+}
+.ov {
+  padding: 40px;
+}
+.heading {
+  width: 30%;
+  min-width: 300px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  display: flex;
+  border-radius: 10px;
+  background: #888888;
+}
+.heading:hover {
+    cursor: pointer;
+}
+.link{
+  text-decoration: none;
+}
+.james{
+  text-decoration: none;
+  opacity: 0.0;
+}
 
