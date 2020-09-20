@@ -29,7 +29,7 @@ html {
   width: 100vw;
   min-height: 95vh;
   background: #cccccc;
-  z-index: 0;
+  z-index: 1;
 }
 
 body {
@@ -174,7 +174,7 @@ h2{
   margin-left: auto;
   margin-right: 20px;
 }    
-.cubing-logo{
+.logo{
   position: relative;
   height: 50px;
   padding-left: 5%;
@@ -204,9 +204,14 @@ section{
 }
 .link{
   text-decoration: none;
+  color:#a8f6f7;
 }
 .james{
   text-decoration: none;
   opacity: 0.0;
 }
-
+.background-img{
+  z-index:0;
+  position:absolute;
+  width: 100vw
+}

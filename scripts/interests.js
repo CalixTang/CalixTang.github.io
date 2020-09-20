@@ -30,3 +30,14 @@ $(document).ready(function(){
         $(".Robotics .ov").toggle(500);
     });
   });
+  
+$(".Pixelart .up").hide();
+$(".Pixelart .ov").hide();
+
+$(document).ready(function(){
+    $(".Pixelart .heading").click(function(){
+        $(".Pixelart .up").toggle(300);
+        $(".Pixelart .down").toggle(300);
+        $(".Pixelart .ov").toggle(500);
+    });
+  });
