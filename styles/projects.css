@@ -113,3 +113,98 @@ p,a{
   font-family: 'Titillium Web', Helvetica, sans-serif;  
   font-size: 2.25vmin;
 }
+section{
+  position: relative;
+  padding-left: 8vw;
+  padding-right: 8vw;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width:84vw;
+}
+.ov {
+  padding: 40px;
+}
+.heading{
+  width: 30%;
+  min-width: 300px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  display: flex;
+  border-radius: 10px;
+  background: #888888;
+}
+.heading:hover {
+    cursor: pointer;
+}
+.logo{
+  position: relative;
+  height: 50px;
+  padding-left: 5%;
+}   
+.name{
+  font-family: 'Titillium Web', Helvetica, sans-serif; 
+  position: relative;
+  font-size: 200%; 
+  color: #FFFFFF;
+  text-decoration: bold;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-left: min(3%, 18px);
+  padding-right: min(3%; 18px);
+}
+.up, .down{
+  font-family: 'Titillium Web', Helvetica, sans-serif; 
+  position: relative;
+  font-size: 200%; 
+  color: #FFFFFF;
+  text-decoration: bold;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: 20px;
+}   
+p,a,li{
+  font-family: 'Titillium Web', Helvetica, sans-serif;  
+}
+.text{
+  font-family: 'Titillium Web', Helvetica, sans-serif;  
+}
+.intro{
+  position: relative;
+  height: 15vh;
+}
+.dropdown-wrapper{
+  position: absolute;
+  top: 15vh;
+  height: 95%;
+}
+h1{
+  font-family: 'Titillium Web', Helvetica, sans-serif; 
+  position: relative;
+  padding-left: 8vw;
+  padding-top: 30px;
+  font-size: 250%;
+  text-decoration: underline;
+}
+h2{
+  font-family: 'Titillium Web', Helvetica, sans-serif; 
+  position: relative;
+  font-size: 250%;
+}
+.link{
+  color: black;
+  text-decoration: bold;
+}
+.link:hover{
+  color: #7991b8;
+}    
+.bullet-list{
+  list-style-type: initial;
+  padding-left: min(5%, 50px);
+}
+.right-align-thumbnail{
+  position: absolute;
+  max-height: 100%;
+  top:0%;
+  left: 80%;
+}
