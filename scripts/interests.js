@@ -41,3 +41,14 @@ $(document).ready(function(){
         $(".Pixelart .ov").toggle(500);
     });
   });
+
+$(".Pixelsamples .u").hide();
+$(".Pixelsamples .o").hide();
+
+$(document).ready(function(){
+    $(".Pixelsamples .h").click(function(){
+        $(".Pixelsamples .u").toggle(300);
+        $(".Pixelsamples .d").toggle(300);
+        $(".Pixelsamples .o").toggle(500);
+    });
+  });

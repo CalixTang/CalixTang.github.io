@@ -146,10 +146,10 @@ a.fa{
 }
 .text-intro {
   position: absolute;
-  width: 80%;
+  width: 60%;
   height: 40%;
   top: 10%;
-  left: 0%;
+  left: 10%;
   z-index: 2;
 }
 .contact-info {
