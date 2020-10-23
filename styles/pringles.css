@@ -219,6 +219,10 @@ h1{
   padding-left: 3vw; 
   margin-top: 5px;
 }
+.para{
+  width: 100%;
+  text-indent: 2em;
+}
 .dropdown-wrapper{
   position: absolute;
   top: 15vh;
@@ -226,10 +230,6 @@ h1{
   left: 0vw;
   width: 50vw;
   padding-left:25vw;
-}
-.para{
-  width: 100%;
-  text-indent: 2em;
 }
 .two-img-box{
   width: 80vw; 

@@ -177,6 +177,7 @@ section{
   position: absolute;
   top: 15vh;
   height: 95%;
+  width: 100vw; 
 }
 h1{
   font-family: 'Titillium Web', Helvetica, sans-serif; 
@@ -220,9 +221,6 @@ h1{
   padding-left: 3vw; 
   margin-top: 5px;
 }
-.dropdown-wrapper{
-  width: 100vw; 
-}
 .left-wrap{
   position: absolute;
   left:0%;
@@ -245,6 +243,7 @@ h1{
   width: 80%;
   padding-left: 10%;
   padding-right: 10%;
+  max-height: 70vh; 
 }
 .graph-init{
   width: 80%;
@@ -284,6 +283,7 @@ h1{
   width: 80%;
   padding-left: 10%;
   padding-right: 10%;
+  max-height: 50vh;
 }
 .link{
   text-decoration: bold;
