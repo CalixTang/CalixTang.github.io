@@ -237,7 +237,13 @@ h1{
 .para{
   width: 100%;
   text-indent: 2em;
+  max-width: 500px;
 }
+.pic{
+  width: 80%;
+  max-width: 500px;
+}
+
 .graph-basics{
   margin-top:45vh; 
   width: 80%;
