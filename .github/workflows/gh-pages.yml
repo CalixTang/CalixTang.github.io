@@ -46,10 +46,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: exampleSite
+          submodules: recursive
+          fetch-depth: 0
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
+      - name: Install Node.js dependencies
+        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
       - name: Get Theme
         run: git submodule update --init --recursive
       - name: Update theme to Latest commit
