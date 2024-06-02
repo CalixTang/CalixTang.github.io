@@ -3,10 +3,11 @@ languageCode: en-us
 title: Calix Tang Website
 theme: ["PaperMod"]
 
+
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  title: Calix Tang website
-  description: "My website"
+  title: Calix's Website
+  description: "My Website"
   keywords: [Blog, Portfolio]
   author: Calix Tang
   # author: ["Me", "You"] # multiple authors
@@ -14,6 +15,7 @@ params:
   # DateFormat: "June 1, 2024"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
+  # ShareButtons: ["linkedin", "twitter"]
 
   ShowReadingTime: false
   ShowShareButtons: false
@@ -31,22 +33,37 @@ params:
   showtoc: false
   tocopen: false
 
-  assets:
-    # disableHLJS: true # to disable highlight.js
-    # disableFingerprinting: true
-    # favicon: "<link / abs url>"
-    # favicon16x16: "<link / abs url>"
-    # favicon32x32: "<link / abs url>"
-    # apple_touch_icon: "<link / abs url>"
-    # safari_pinned_tab: "<link / abs url>"
-
-  # label:
-  #   text: "Home"
-  #   icon: /apple-touch-icon.png
-  #   iconHeight: 35
-
+  #enable katex
+  math: true
 
   # home-info mode
   homeInfoParams:
     Title: "Hi there \U0001F44B"
-    Content: Welcome to my blog
+    Content: Welcome to my website. I'm using this page as a place to put my interests, hobbies, and projects as well as work on my writing!
+  
+  socialIcons:
+    - name: "github"
+      url: "https://github.com/CalixTang"
+    - name: "youtube"
+      url: "https://www.youtube.com/@calix-tang"
+    - name: "linkedin"
+      url: "https://www.linkedin.com/in/calix-tang/"
+  
+  taxonomies:
+    genre: genres
+    tag: tags
+
+menu:
+  main:
+    - identifier: archive
+      name: archive
+      url: /archives/
+      weight: 10
+    - identifier: search
+      name: search
+      url: /search/
+      weight: 20
+    - identifier: home
+      name: home
+      url: /
+      weight: 30
