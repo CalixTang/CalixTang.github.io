@@ -12,7 +12,6 @@ tags:
 ### 
 Now what does this say?
 
-{{< twisty-puzzle alg="B U F y F L U F y">}}
+{{< twisty-puzzle alg="B U F y F L U F y">}} <br>
 
-
-
+TPS is given by $\frac{\text{turns}}{t}$, where $t$ is in seconds.
