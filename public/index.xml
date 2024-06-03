@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Calix Tang</title>
-    <link>https://CalixTang.github.io/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on Calix Tang</description>
     <generator>Hugo -- 0.126.2</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 01 Jun 2024 18:57:43 -0400</lastBuildDate>
-    <atom:link href="https://CalixTang.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cubing Test Post</title>
-      <link>https://CalixTang.github.io/posts/cubing_example/</link>
+      <link>http://localhost:1313/posts/cubing_example/</link>
       <pubDate>Sat, 01 Jun 2024 18:57:43 -0400</pubDate>
-      <guid>https://CalixTang.github.io/posts/cubing_example/</guid>
+      <guid>http://localhost:1313/posts/cubing_example/</guid>
       <description>Now what does this say?
 TPS is given by $\frac{\text{turns}}{t}$, where $t$ is in seconds.</description>
     </item>
