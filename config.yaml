@@ -19,6 +19,7 @@ params:
   ShowReadingTime: false
   ShowShareButtons: false
   ShowPostNavLinks: false
+  enableEmoji: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
   ShowWordCount: true
@@ -63,6 +64,13 @@ params:
     minMatchCharLength: 0
     limit: 40 # refer: https://www.fusejs.io/api/methods.html#search
     keys: ["title", "permalink", "summary", "content"]
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true #this allows the markdown renderer to inject html tags directly. could be unsafe.
+  highlight:
+    noClasses: false
 
 menu:
   main:

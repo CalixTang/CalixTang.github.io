@@ -1,7 +1,7 @@
 ---
 title: 'Cubing Test Post'
 date: 2024-06-01T18:57:43-04:00
-draft: true
+draft: false
 genres: cubing
 tags:
  - cubing
