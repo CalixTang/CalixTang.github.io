@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Cubing Test Post | Calix Tang Website</title>
+<title>Cubing Test Post | Calix Tang</title>
 <meta name="keywords" content="cubing">
 <meta name="description" content="Now what does this say?
 TPS is given by $\frac{\text{turns}}{t}$, where $t$ is in seconds.">
@@ -136,7 +136,7 @@ TPS is given by $\frac{\text{turns}}{t}$, where $t$ is in seconds."/>
   },
   "publisher": {
     "@type": "Organization",
-    "name": "Calix Tang Website",
+    "name": "Calix Tang",
     "logo": {
       "@type": "ImageObject",
       "url": "http://localhost:1313/favicon.ico"
@@ -161,7 +161,7 @@ TPS is given by $\frac{\text{turns}}{t}$, where $t$ is in seconds."/>
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Calix Tang Website (Alt + H)">Calix Tang Website</a>
+            <a href="http://localhost:1313/" accesskey="h" title="Calix Tang (Alt + H)">Calix Tang</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -250,13 +250,20 @@ camera-latitude-limit = "180"
     <ul class="post-tags">
       <li><a href="http://localhost:1313/tags/cubing/">Cubing</a></li>
     </ul>
+<nav class="paginav">
+  <a class="next" href="http://localhost:1313/posts/template/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Template Post</span>
+  </a>
+</nav>
 
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2024 <a href="http://localhost:1313/">Calix Tang Website</a></span> · 
+        <span>&copy; 2024 <a href="http://localhost:1313/">Calix Tang</a></span> · 
 
     <span>
         Powered by
@@ -323,6 +330,53 @@ camera-latitude-limit = "180"
         }
     })
 
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
 </script>
 </body>
 

@@ -3,7 +3,6 @@ title: 'Cubing Test Post'
 date: 2024-06-01T18:57:43-04:00
 draft: true
 genres: cubing
-url: /cubing_example/
 tags:
  - cubing
 ---

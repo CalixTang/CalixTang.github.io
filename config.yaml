@@ -1,6 +1,6 @@
 baseURL: https://CalixTang.github.io/
 languageCode: en-us
-title: Calix Tang Website
+title: Calix Tang
 theme: ["PaperMod"]
 
 
@@ -16,14 +16,13 @@ params:
   defaultTheme: auto # dark, light
   disableThemeToggle: false
   # ShareButtons: ["linkedin", "twitter"]
-
   ShowReadingTime: false
   ShowShareButtons: false
-  ShowPostNavLinks: true
+  ShowPostNavLinks: false
   ShowBreadCrumbs: true
-  ShowCodeCopyButtons: false
+  ShowCodeCopyButtons: true
   ShowWordCount: true
-  ShowRssButtonInSectionTermList: true
+  ShowRssButtonInSectionTermList: false
   UseHugoToc: true
   disableSpecial1stPost: false
   disableScrollToTop: false
@@ -53,6 +52,18 @@ params:
     genre: genres
     tag: tags
 
+  # for search
+  # https://fusejs.io/api/options.html
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    limit: 40 # refer: https://www.fusejs.io/api/methods.html#search
+    keys: ["title", "permalink", "summary", "content"]
+
 menu:
   main:
     - identifier: archive
@@ -67,3 +78,9 @@ menu:
       name: home
       url: /
       weight: 30
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # necessary for search

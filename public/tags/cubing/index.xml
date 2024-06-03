@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Cubing on Calix Tang Website</title>
+    <title>Cubing on Calix Tang</title>
     <link>http://localhost:1313/tags/cubing/</link>
-    <description>Recent content in Cubing on Calix Tang Website</description>
+    <description>Recent content in Cubing on Calix Tang</description>
     <generator>Hugo -- 0.126.2</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 01 Jun 2024 18:57:43 -0400</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/cubing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cubing Test Post</title>
-      <link>http://localhost:1313/cubing_example/</link>
+      <link>http://localhost:1313/posts/cubing_example/</link>
       <pubDate>Sat, 01 Jun 2024 18:57:43 -0400</pubDate>
-      <guid>http://localhost:1313/cubing_example/</guid>
-      <description>Now what does this say?</description>
+      <guid>http://localhost:1313/posts/cubing_example/</guid>
+      <description>Now what does this say?
+TPS is given by $\frac{\text{turns}}{t}$, where $t$ is in seconds.</description>
     </item>
   </channel>
 </rss>
