@@ -76,6 +76,8 @@ function search_comm(comm_input) {
     if (is_singmaster_not(comm_input)) {
         let targets = comm_input.split("-");
         try {
+            //TODO - make sure that ambiguous targets map correctly (ex UFR = URF)
+
             let comm_algo = main_db.get(targets[0]).get(targets[1]).get(targets[2]);
 
             return expand_comm(comm_algo);
@@ -92,7 +94,7 @@ function search_comm(comm_input) {
 }
 
 function is_singmaster_not(comm_input) {
-    const re = /^[a-zA-Z0-9]{2,4}-[a-zA-Z0-9]{2,4}-[a-zA-Z0-9]{2,4}$/;
+    const re = /^[UDFBRLudfbrl]{2,3}-[UDFBRLudfbrl]{2,3}-[UDFBRLudfbrl]{2,3}$/;
     return comm_input.match(re) != null;
 }
 
