@@ -30,7 +30,7 @@ function update_twisty_player() {
     let puzzle = "3x3x3";
     
     //check if puzzle is explicitly given first - if not, infer (and default to smallest possible)
-    const puzzle_regex = /\[([3-5])x\1(?:x\1)?\]/
+    const puzzle_regex = /\[([3-5])x\1(?:x\1)?\]/g
     let explicit_puzzle = alg_input_text.match(puzzle_regex);
     if (explicit_puzzle != null) {
         explicit_puzzle = explicit_puzzle[0].replaceAll("[", "").replaceAll("]", "").trim();
@@ -51,7 +51,7 @@ function update_twisty_player() {
             } else {
                 puzzle = "4x4x4";
             }
-        }
+        } 
     }
     
 
