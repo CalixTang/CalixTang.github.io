@@ -2,29 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on Calix Tang</title>
-    <link>http://localhost:1313/posts/</link>
+    <link>https://CalixTang.github.io/posts/</link>
     <description>Recent content in Posts on Calix Tang</description>
     <generator>Hugo -- 0.126.2</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 01 Jun 2024 18:57:43 -0400</lastBuildDate>
-    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://CalixTang.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Blindfolded algorithm visualizer</title>
-      <link>http://localhost:1313/posts/bld_explorer/</link>
+      <link>https://CalixTang.github.io/posts/bld_explorer/</link>
       <pubDate>Sat, 01 Jun 2024 18:57:43 -0400</pubDate>
-      <guid>http://localhost:1313/posts/bld_explorer/</guid>
-      <description>BLD algorithm visualizer This page allows you to search and look at the algorithms I use to solve the Rubik&amp;rsquo;s cube blindfolded (and 4x4, and 5x5).
+      <guid>https://CalixTang.github.io/posts/bld_explorer/</guid>
+      <description>This page allows you to search and view the algorithms I use to solve the Rubik&amp;rsquo;s cube blindfolded. This includes the classic 3x3, the 4x4 cube, and the 5x5 cube.
 Enter BLD algorithm to visualize:
-Full alg: test
-Usage Guide Uhh
-Searching Commutators You can use Singmaster notation or the full commutator in SPEFFZ notation (although this will only allow you to search 3BLD algs).</description>
-    </item>
-    <item>
-      <title>Template Post</title>
-      <link>http://localhost:1313/posts/template/</link>
-      <pubDate>Fri, 31 May 2024 00:00:00 -0400</pubDate>
-      <guid>http://localhost:1313/posts/template/</guid>
-      <description>A Template Post to use when writing</description>
+Full alg: test Usage Guide Searching Commutators As of 6/25/24:
+You can use sticker notation to search up commutators. Piece names are derived from the names of the faces that they form the intersection of. In this notation, the first letter of the sticker name should be the face that the sticker lies on.</description>
     </item>
   </channel>
 </rss>

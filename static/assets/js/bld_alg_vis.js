@@ -6,16 +6,16 @@ const sheets_read_api_key = 'AIzaSyBNbrZ8i83cWf7CJuLlr3wuzCjmffE0E8k';
 
 // TODO: make a 5bld sheet and link here
 const bld_sheet_ids = new Map([
-    ["3x3", "173B6VXROBCyCceSZ7sKPeWW0lZYNo1b5HvtVRlDUW_8"], 
-    ["4x4", "1vcmUqvBrkvsviOJc2dY16kGU6fSKPM5I2T_L33LUGpM"], 
-    ["5x5", "11nBD2RWxEorVhvKHgcw9CWHEqvUy0FYWpuNxwefspUM"]
+    ["3x3x3", "173B6VXROBCyCceSZ7sKPeWW0lZYNo1b5HvtVRlDUW_8"], 
+    ["4x4x4", "1vcmUqvBrkvsviOJc2dY16kGU6fSKPM5I2T_L33LUGpM"], 
+    ["5x5x5", "11nBD2RWxEorVhvKHgcw9CWHEqvUy0FYWpuNxwefspUM"]
 ]);
 
 //TODO: add 2e2e, 2c2c, Parities, etc
 const bld_sheet_commsheet_names = new Map([
-    ["3x3", ['UF', 'UB', 'UR', 'UL', 'FR', 'FL', 'DF', 'DB', 'DR', 'DL', 'UFR', 'UFL', 'UBR', 'UBL', 'DFR', 'DFL']], 
-    ["4x4", ['Ufr (centers)', 'UFr (wings)', 'UFR (corners)']],
-    ["5x5", []]
+    ["3x3x3", ['UF', 'UB', 'UR', 'UL', 'FR', 'FL', 'DF', 'DB', 'DR', 'DL', 'UFR', 'UFL', 'UBR', 'UBL', 'DFR', 'DFL']], 
+    ["4x4x4", ['Ufr (centers)', 'UFr (wings)', 'UFR (corners)']],
+    ["5x5x5", []]
 ]);
 
 let main_db = new Map();
@@ -25,9 +25,37 @@ function update_twisty_player() {
     let twist_player = document.getElementById(player_id);
     let alg_text_elem = document.getElementById(vis_alg_id);
     let alg_input_text = alg_input.value;
+
+    //figure out puzzle
+    let puzzle = "3x3x3";
+    
+    //check if puzzle is explicitly given first - if not, infer (and default to smallest possible)
+    const puzzle_regex = /\[([3-5])x\1(?:x\1)?\]/
+    let explicit_puzzle = alg_input_text.match(puzzle_regex);
+    if (explicit_puzzle != null) {
+        explicit_puzzle = explicit_puzzle[0].replaceAll("[", "").replaceAll("]", "").trim();
+        if (explicit_puzzle.length == 3) {
+            explicit_puzzle = explicit_puzzle + "x" + explicit_puzzle.at(0); //turn nxn to nxnxn
+        }
+        puzzle = explicit_puzzle;
+
+        alg_input_text = alg_input_text.replaceAll(puzzle_regex, "").trim();
+    } else {
+        //try to infer the puzzle type.
+        let temp_buf = alg_input_text.trim().split("-")[0]; 
+        if (temp_buf.match(/([a-z]+)/) != null) {
+            //if there are any lowercase letters in the piece name, it can't be 3x3.
+            //the only case where we can safely assume 5x5 is for + centers (Uf, Fu, etc). otherwise, we assume 4x4.
+            if (temp_buf.length == 2) {
+                puzzle = "5x5x5";
+            } else {
+                puzzle = "4x4x4";
+            }
+        }
+    }
     
 
-    //search up algo and lsit
+    //search up algo
     let alg = search_comm(alg_input_text);
     console.log(alg);
     
@@ -37,6 +65,7 @@ function update_twisty_player() {
         let full_alg = expand_comm(alg);
         twist_player.setAttribute("experimental-setup-alg", invert_alg(full_alg));
         twist_player.alg = full_alg;
+        twist_player.puzzle = puzzle;
         alg_text_elem.textContent = full_alg;
     }
 }
@@ -475,16 +504,16 @@ function main() {
       });
 
 
-    let test_cases = [
-        "((R2: R' U' R), E)",
-        "(R2: R' U' R), E",
-        "R2: R' U' R, E",
-        "R2 L2 R2 L2"
-    ]
+    // let test_cases = [
+    //     "((R2: R' U' R), E)",
+    //     "(R2: R' U' R), E",
+    //     "R2: R' U' R, E",
+    //     "R2 L2 R2 L2"
+    // ]
 
-    for (let test_case of test_cases) {
-        console.log(test_case, " | ", expand_comm(test_case))
-    }
+    // for (let test_case of test_cases) {
+    //     console.log(test_case, " | ", expand_comm(test_case))
+    // }
     
 }
 main();
