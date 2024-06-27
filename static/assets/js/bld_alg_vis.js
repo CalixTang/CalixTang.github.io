@@ -18,6 +18,57 @@ const bld_sheet_commsheet_names = new Map([
     ["5x5x5", []]
 ]);
 
+const synonym_sticker_names = new Map([
+    ["ULB", "UBL"],
+    ["URB", "UBR"],
+    ["URF", "UFR"],
+    ["ULF", "UFL"],
+    ["LBU", "LUB"],
+    ["LFU", "LUF"],
+    ["LFD", "LDF"],
+    ["LBD", "LDB"],
+    ["FLU", "FUL"],
+    ["FRU", "FUR"],
+    ["FRD", "FDR"],
+    ["FLD", "FDL"],
+    ["RFU", "RUF"],
+    ["RBU", "RUB"],
+    ["RBD", "RDB"],
+    ["RFD", "RDF"],
+    ["BRU", "BUR"],
+    ["BLU", "BUL"],
+    ["BLD", "BDL"],
+    ["BRD", "BDR"],
+    ["DLF", "DFL"],
+    ["DRF", "DFR"],
+    ["DRB", "DBR"],
+    ["DLB", "DBL"],
+    ["Ulb", "Ubl"],
+    ["Urb", "Ubr"],
+    ["Urf", "Ufr"],
+    ["Ulf", "Ufl"],
+    ["Lbu", "Lub"],
+    ["Lfu", "Luf"],
+    ["Lfd", "Ldf"],
+    ["Lbd", "Ldb"],
+    ["Flu", "Ful"],
+    ["Fru", "Fur"],
+    ["Frd", "Fdr"],
+    ["Fld", "Fdl"],
+    ["Rfr", "Ruf"],
+    ["Rbu", "Rub"],
+    ["Rbd", "Rdb"],
+    ["Rfd", "Rdf"],
+    ["Bru", "Bur"],
+    ["Blu", "Bul"],
+    ["Bld", "Bdl"],
+    ["Brd", "Bdr"],
+    ["Dlf", "Dfl"],
+    ["Drf", "Dfr"],
+    ["Drb", "Dbr"],
+    ["Dlb", "Dbl"]
+]);
+
 let main_db = new Map();
 
 function update_twisty_player() {
@@ -76,7 +127,14 @@ function search_comm(comm_input) {
     if (is_singmaster_not(comm_input)) {
         let targets = comm_input.split("-");
         try {
-            //TODO - make sure that ambiguous targets map correctly (ex UFR = URF)
+
+            //map ambiguous sticker names correctly
+            for (let i in targets) {
+                let target = targets[i];
+                if (synonym_sticker_names.has(target)) {
+                    targets[i] = synonym_sticker_names.get(target);
+                }
+            }
 
             let comm_algo = main_db.get(targets[0]).get(targets[1]).get(targets[2]);
 
