@@ -1,0 +1,17 @@
+<twisty-player 
+alg = "{{ if .Get "alg" }}{{ .Get "alg" }}{{else}} {{ end }}"
+experimental-setup-alg = "{{ if .Get "experimental-setup-alg" }}{{ .Get "experimental-setup-alg" }}{{else}} {{ end }}"
+experimental-setup-anchor = "{{ if .Get "experimental-setup-anchor" }}{{ .Get "experimental-setup-anchor"}} {{else}}start{{ end }}"	
+puzzle = "{{ if .Get "puzzle" }}{{ .Get "puzzle"}} {{else}}3x3x3{{ end }}"
+visualization = "{{ if .Get "visualization" }}{{ .Get "visualization"}} {{else}}3D{{ end }}"
+hint-facelets = "{{ if .Get "hint-facelets" }}{{ .Get "hint-facelets"}} {{else}}floating{{ end }}"
+experimental-stickering = "{{ if .Get "experimental-stickering" }}{{ .Get "experimental-stickering"}} {{else}}full{{ end }}" 
+background = "{{ if .Get "background" }}{{ .Get "background"}} {{else}}checkered{{ end }}"
+control-panel = "{{ if .Get "control-panel" }}{{ .Get "control-panel"}} {{else}}bottom-row{{ end }}"
+back-view = "{{ if .Get "back-view" }}{{ .Get "back-view"}} {{else}}none{{ end }}"
+experimental-drag-input = "{{ if .Get "experimental-drag-input" }}{{ .Get "experimental-drag-input"}} {{else}}auto{{ end }}"
+viewer-link = "{{ if .Get "viewer-link" }}{{ .Get "viewer-link"}} {{else}}twizzle{{ end }}"
+camera-latitude = "{{ if .Get "camera-latitude" }}{{ .Get "camera-latitude"}} {{else}}45{{ end }}"
+camera-longitude = "{{ if .Get "camera-longitude" }}{{ .Get "camera-longitude"}} {{else}}30{{ end }}"
+camera-latitude-limit = "{{ if .Get "camera-latitude-limit" }}{{ .Get "camera-latitude-limit"}} {{else}}180{{ end }}"
+></twisty-player> 

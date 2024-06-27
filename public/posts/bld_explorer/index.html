@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Blindfolded algorithm visualizer | Calix Tang</title>
+<meta name="keywords" content="cubing">
+<meta name="description" content="BLD algorithm visualizer This page allows you to search and view the algorithms I use to solve the Rubik&rsquo;s cube blindfolded. This includes the classic 3x3, the 4x4 cube, and the 5x5 cube.
+Enter BLD algorithm to visualize:
+Full alg: test Usage Guide Searching Commutators As of 6/25/24:
+You can use sticker notation to search up commutators. Piece names are derived from the names of the faces that they form the intersection of.">
+<meta name="author" content="Calix Tang">
+<link rel="canonical" href="http://localhost:1313/posts/bld_explorer/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css" integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z&#43;V9&#43;cO1A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/bld_explorer/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, 
+{
+          delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '\\[', right: '\\]', display: true},
+              {left: '$', right: '$', display: false},
+              {left: '\\(', right: '\\)', display: false}
+          ]
+      }
+);"></script>
+
+
+
+
+<script src="https://cdn.cubing.net/js/cubing/twisty" type="module" defer></script> 
+  
+
+<meta property="og:title" content="Blindfolded algorithm visualizer" />
+<meta property="og:description" content="BLD algorithm visualizer This page allows you to search and view the algorithms I use to solve the Rubik&rsquo;s cube blindfolded. This includes the classic 3x3, the 4x4 cube, and the 5x5 cube.
+Enter BLD algorithm to visualize:
+Full alg: test Usage Guide Searching Commutators As of 6/25/24:
+You can use sticker notation to search up commutators. Piece names are derived from the names of the faces that they form the intersection of." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/bld_explorer/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-06-01T18:57:43-04:00" />
+<meta property="article:modified_time" content="2024-06-01T18:57:43-04:00" /><meta property="og:site_name" content="Calix&#39;s Website" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Blindfolded algorithm visualizer"/>
+<meta name="twitter:description" content="BLD algorithm visualizer This page allows you to search and view the algorithms I use to solve the Rubik&rsquo;s cube blindfolded. This includes the classic 3x3, the 4x4 cube, and the 5x5 cube.
+Enter BLD algorithm to visualize:
+Full alg: test Usage Guide Searching Commutators As of 6/25/24:
+You can use sticker notation to search up commutators. Piece names are derived from the names of the faces that they form the intersection of."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blindfolded algorithm visualizer",
+      "item": "http://localhost:1313/posts/bld_explorer/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Blindfolded algorithm visualizer",
+  "name": "Blindfolded algorithm visualizer",
+  "description": "BLD algorithm visualizer This page allows you to search and view the algorithms I use to solve the Rubik\u0026rsquo;s cube blindfolded. This includes the classic 3x3, the 4x4 cube, and the 5x5 cube.\nEnter BLD algorithm to visualize:\nFull alg: test Usage Guide Searching Commutators As of 6/25/24:\nYou can use sticker notation to search up commutators. Piece names are derived from the names of the faces that they form the intersection of.",
+  "keywords": [
+    "cubing"
+  ],
+  "articleBody": "BLD algorithm visualizer This page allows you to search and view the algorithms I use to solve the Rubik’s cube blindfolded. This includes the classic 3x3, the 4x4 cube, and the 5x5 cube.\nEnter BLD algorithm to visualize:\nFull alg: test Usage Guide Searching Commutators As of 6/25/24:\nYou can use sticker notation to search up commutators. Piece names are derived from the names of the faces that they form the intersection of. In this notation, the first letter of the sticker name should be the face that the sticker lies on. For example, the white sticker of the white-green edge on a 3x3 is UF, but the green sticker of the same piece is FU (if you are holding the cube in WCA orientation). Corners all have two possible names. UFR and URF are both correct names for the white sticker of the white-red-green corner (assuming WCA orientation). For larger cubes, pieces on inner slices use lowercase letters to indicate an inner slice. For example, Ufr refers to the center closest to the UFR piece on a 4x4. It may also refer to the x center closest to the UFR piece on a 5x5. Examples UF-UB-UR will query the 3x3 edge commutator for the UF buffer with UB (A in Speffz) as the first target and UR (B in Speffz) as the second target. This alg is a U perm. Things I want to add to this page eventually The ability to search up parity algorithms (2e2c), flips, and twists. 2e2e, 2c2c would also be nice. The ability to search up commutators using Speffz or a custom piece-name mapping. ",
+  "wordCount" : "270",
+  "inLanguage": "en",
+  "datePublished": "2024-06-01T18:57:43-04:00",
+  "dateModified": "2024-06-01T18:57:43-04:00",
+  "author":{
+    "@type": "Person",
+    "name": "Calix Tang"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/bld_explorer/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Calix Tang",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Calix Tang (Alt + H)">Calix Tang</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/archives/" title="archive">
+                    <span>archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="search (Alt &#43; /)" accesskey=/>
+                    <span>search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/" title="home">
+                    <span>home</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Blindfolded algorithm visualizer
+    </h1>
+    <div class="post-meta"><span title='2024-06-01 18:57:43 -0400 EDT'>June 1, 2024</span>&nbsp;·&nbsp;270 words&nbsp;·&nbsp;Calix Tang
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="bld-algorithm-visualizer">BLD algorithm visualizer<a hidden class="anchor" aria-hidden="true" href="#bld-algorithm-visualizer">#</a></h1>
+<p>This page allows you to search and view the algorithms I use to solve the Rubik&rsquo;s cube blindfolded. This includes the classic 3x3, the 4x4 cube, and the 5x5 cube.</p>
+
+<script src = "/assets/js/bld_alg_vis.js" type="module" defer></script>
+
+<div>
+  <p>Enter BLD algorithm to visualize:</p>
+  <input type="text" id="bld-vis-input" autofocus placeholder="none"/>
+</div>
+<br>
+<div>
+  <div>Full alg: <span id = "bld-vis-full-alg">test</span></div>
+  <twisty-player id="bld-vis-player"></twisty-player>
+</div>
+
+
+
+<h2 id="usage-guide">Usage Guide<a hidden class="anchor" aria-hidden="true" href="#usage-guide">#</a></h2>
+<h3 id="searching-commutators">Searching Commutators<a hidden class="anchor" aria-hidden="true" href="#searching-commutators">#</a></h3>
+<p>As of 6/25/24:</p>
+<ul>
+<li>You can use sticker notation to search up commutators. Piece names are derived from the names of the faces that they form the intersection of. In this notation, the first letter of the sticker name should be the face that the sticker lies on. For example, the white sticker of the white-green edge on a 3x3 is UF, but the green sticker of the same piece is FU (if you are holding the cube in WCA orientation).
+<ul>
+<li>Corners all have two possible names. UFR and URF are both correct names for the white sticker of the white-red-green corner (assuming WCA orientation).</li>
+<li>For larger cubes, pieces on inner slices use lowercase letters to indicate an inner slice. For example, Ufr refers to the center closest to the UFR piece on a 4x4. It may also refer to the x center closest to the UFR piece on a 5x5.</li>
+</ul>
+</li>
+</ul>
+<h3 id="examples">Examples<a hidden class="anchor" aria-hidden="true" href="#examples">#</a></h3>
+<ul>
+<li>UF-UB-UR will query the 3x3 edge commutator for the <b>UF</b> buffer with UB (A in Speffz) as the first target and UR (B in Speffz) as the second target. This alg is a U perm.</li>
+</ul>
+<h3 id="things-i-want-to-add-to-this-page-eventually">Things I want to add to this page eventually<a hidden class="anchor" aria-hidden="true" href="#things-i-want-to-add-to-this-page-eventually">#</a></h3>
+<ul>
+<li>The ability to search up parity algorithms (2e2c), flips, and twists. 2e2e, 2c2c would also be nice.</li>
+<li>The ability to search up commutators using Speffz or a custom piece-name mapping.</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/cubing/">Cubing</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="http://localhost:1313/">Calix Tang</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><link rel="stylesheet" href="/assets/css/all.css">
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

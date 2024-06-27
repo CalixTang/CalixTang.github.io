@@ -92,3 +92,6 @@ outputs:
     - HTML
     - RSS
     - JSON # necessary for search
+
+caches:
+  maxAge: -1

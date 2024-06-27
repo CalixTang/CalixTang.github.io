@@ -1,0 +1,8 @@
+/* This sheet contains global styles. Used in partials/extend_footer and is applied by default to all content pages. */
+input {
+    box-sizing: content-box;
+    border: solid var(--content) 2px;
+    border-radius: 5px;
+    color: var(--content);
+    padding: 0 5px 0;
+}

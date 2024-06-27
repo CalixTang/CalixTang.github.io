@@ -9,12 +9,22 @@
     <lastBuildDate>Sat, 01 Jun 2024 18:57:43 -0400</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Cubing Test Post</title>
-      <link>http://localhost:1313/posts/cubing_example/</link>
+      <title>Blindfolded algorithm visualizer</title>
+      <link>http://localhost:1313/posts/bld_explorer/</link>
       <pubDate>Sat, 01 Jun 2024 18:57:43 -0400</pubDate>
-      <guid>http://localhost:1313/posts/cubing_example/</guid>
-      <description>Now what does this say?
-TPS is given by $\frac{\text{turns}}{t}$, where $t$ is in seconds.</description>
+      <guid>http://localhost:1313/posts/bld_explorer/</guid>
+      <description>BLD algorithm visualizer This page allows you to search and look at the algorithms I use to solve the Rubik&amp;rsquo;s cube blindfolded (and 4x4, and 5x5).
+Enter BLD algorithm to visualize:
+Full alg: test
+Usage Guide Uhh
+Searching Commutators You can use Singmaster notation or the full commutator in SPEFFZ notation (although this will only allow you to search 3BLD algs).</description>
+    </item>
+    <item>
+      <title>Template Post</title>
+      <link>http://localhost:1313/posts/template/</link>
+      <pubDate>Fri, 31 May 2024 00:00:00 -0400</pubDate>
+      <guid>http://localhost:1313/posts/template/</guid>
+      <description>A Template Post to use when writing</description>
     </item>
   </channel>
 </rss>
