@@ -17,9 +17,9 @@ This page allows you to search and view the algorithms I use to solve the Rubik'
 ### Searching Commutators
 As of 6/25/24: 
 * You can use sticker notation to search up commutators. Piece names are derived from the names of the faces that they form the intersection of. In this notation, the first letter of the sticker name should be the face that the sticker lies on. For example, the white sticker of the white-green edge on a 3x3 is UF, but the green sticker of the same piece is FU (if you are holding the cube in WCA orientation).    
-    * Corners all have two possible names. UFR and URF are both correct names for the white sticker of the white-red-green corner (assuming WCA orientation). 
+    * Corners, 4x4 centers, and 5x5 x-centers all have two possible names. UFR and URF are both correct names for the white sticker of the white-green-red corner (assuming WCA orientation). 
     * For larger cubes, pieces on inner slices use lowercase letters to indicate an inner slice. For example, Ufr refers to the center closest to the UFR piece on a 4x4. It may also refer to the x center closest to the UFR piece on a 5x5. 
-    * You can add the cube name in brackets (e.g. [4x4], [3x3x3]) in front of the commutator name ([4x4] Ufr-Ldb-Fdl). This is useful (and necessary) in cases of ambiguity, like the one listed on the above bullet point. It may also be useful to visualize an algorithm on a different cube, like with corner commutators on different puzzles. If the puzzle name is not specified, the smaller cube is used by default.
+    * You can add the cube name in brackets (e.g. [4x4], [3x3x3]) in front of the commutator name ([4x4] Ufr-Ldb-Fdl). This is useful (and necessary) in cases of ambiguity, like the one listed on the above bullet point. It may also be useful to visualize an algorithm on a different cube, like with corner commutators on different puzzles. If the puzzle name is not specified, the smallest possible cube is used by default.
 
 
 ### Examples
