@@ -15,7 +15,7 @@
       <guid>https://CalixTang.github.io/posts/bld_explorer/</guid>
       <description>This page allows you to search and view the algorithms I use to solve the Rubik&amp;rsquo;s cube blindfolded. This includes the classic 3x3, the 4x4 cube, and the 5x5 cube.
 Enter BLD algorithm to visualize:
-Full alg: test Usage Guide Searching Commutators As of 6/25/24:
+Comm: Full alg: Usage Guide Searching Commutators As of 6/25/24:
 You can use sticker notation to search up commutators. Piece names are derived from the names of the faces that they form the intersection of. In this notation, the first letter of the sticker name should be the face that the sticker lies on.</description>
     </item>
   </channel>

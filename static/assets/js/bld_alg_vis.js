@@ -1,6 +1,7 @@
 const input_id = "bld-vis-input";
 const player_id = "bld-vis-player";
-const vis_alg_id = "bld-vis-full-alg"
+const vis_comm_id = "bld-vis-comm";
+const vis_alg_id = "bld-vis-full-alg";
 
 const sheets_read_api_key = 'AIzaSyBNbrZ8i83cWf7CJuLlr3wuzCjmffE0E8k';
 
@@ -15,10 +16,11 @@ const bld_sheet_ids = new Map([
 const bld_sheet_commsheet_names = new Map([
     ["3x3x3", ['UF', 'UB', 'UR', 'UL', 'FR', 'FL', 'DF', 'DB', 'DR', 'DL', 'UFR', 'UFL', 'UBR', 'UBL', 'DFR', 'DFL']], 
     ["4x4x4", ['Ufr (centers)', 'UFr (wings)', 'UFR (corners)']],
-    ["5x5x5", []]
+    ["5x5x5", ['Uf (+ centers)', 'Ufr (x centers)', 'UFr (wings)', 'UF (midges)', 'UFR (corners)']]
 ]);
 
 const synonym_sticker_names = new Map([
+    //corners
     ["ULB", "UBL"],
     ["URB", "UBR"],
     ["URF", "UFR"],
@@ -43,6 +45,7 @@ const synonym_sticker_names = new Map([
     ["DRF", "DFR"],
     ["DRB", "DBR"],
     ["DLB", "DBL"],
+    //4 centers or x centers
     ["Ulb", "Ubl"],
     ["Urb", "Ubr"],
     ["Urf", "Ufr"],
@@ -66,7 +69,32 @@ const synonym_sticker_names = new Map([
     ["Dlf", "Dfl"],
     ["Drf", "Dfr"],
     ["Drb", "Dbr"],
-    ["Dlb", "Dbl"]
+    ["Dlb", "Dbl"],
+    //wings
+    ["UlB", "UBl"],
+    ["UbR", "URb"],
+    ["UrF", "UFr"],
+    ["UfL", "ULf"],
+    ["LbU", "LUb"],
+    ["LuF", "LFu"],
+    ["LfD", "LDf"],
+    ["LdB", "LBd"],
+    ["FlU", "FUl"],
+    ["FuR", "FRu"],
+    ["FrD", "FDr"],
+    ["FdL", "FLd"],
+    ["RfU", "RUf"],
+    ["RuB", "RBu"],
+    ["RbD", "RDb"],
+    ["RdF", "RFd"],
+    ["BrU", "BUr"],
+    ["BuR", "BRu"],
+    ["BlD", "BDl"],
+    ["BdL", "BLd"],
+    ["DlF", "DFl"],
+    ["DfR", "DRf"],
+    ["DrB", "DBr"],
+    ["DbL", "DLb"]
 ]);
 
 let main_db = new Map();
@@ -74,6 +102,7 @@ let main_db = new Map();
 function update_twisty_player() {
     let alg_input = document.getElementById(input_id);
     let twist_player = document.getElementById(player_id);
+    let comm_text_elem = document.getElementById(vis_comm_id);
     let alg_text_elem = document.getElementById(vis_alg_id);
     let alg_input_text = alg_input.value;
 
@@ -107,8 +136,8 @@ function update_twisty_player() {
     
 
     //search up algo
-    let alg = search_comm(alg_input_text);
-    console.log(alg);
+    let alg = search_comm(alg_input_text, puzzle);
+    // console.log(alg);
     
 
     //update the twisty-player algo
@@ -117,11 +146,12 @@ function update_twisty_player() {
         twist_player.setAttribute("experimental-setup-alg", invert_alg(full_alg));
         twist_player.alg = full_alg;
         twist_player.puzzle = puzzle;
+        comm_text_elem.textContent = alg;
         alg_text_elem.textContent = full_alg;
     }
 }
 
-function search_comm(comm_input) {
+function search_comm(comm_input, puzzle = "3x3x3") {
     comm_input = comm_input.trim();
 
     if (is_singmaster_not(comm_input)) {
@@ -136,9 +166,9 @@ function search_comm(comm_input) {
                 }
             }
 
-            let comm_algo = main_db.get(targets[0]).get(targets[1]).get(targets[2]);
+            let comm_algo = main_db.get(puzzle).get(targets[0]).get(targets[1]).get(targets[2]);
 
-            return expand_comm(comm_algo);
+            return comm_algo;
         } catch (e) {
             //TODO: provide user feedback to say invalid algo
             console.log("Error in querying singmaster alg");
@@ -464,6 +494,8 @@ function expand_comm(comm_algo) {
 
     let expanded_tokenized_algo = apply_operator(op_1, op_2, op);
 
+    console.log(expanded_tokenized_algo);
+
     //part 2: apply cancellations
     let alg = expanded_tokenized_algo.slice();
     i = 0;
@@ -544,6 +576,7 @@ function main() {
     // main_db = new Map();
 
     for (let [puzzle, spreadsheet_id] of bld_sheet_ids) {
+        main_db.set(puzzle, new Map());
         for (let sheet_name of bld_sheet_commsheet_names.get(puzzle)) {
             
             let api_url_base = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}/values/${sheet_name}?key=${sheets_read_api_key}`;
@@ -553,7 +586,9 @@ function main() {
                 let processed_algsheet = process_commsheet(algsheet_arr);
                 // console.log(processed_algsheet);
                 let canonical_sheet_name = sheet_name.split(' ')[0];
-                main_db.set(canonical_sheet_name, processed_algsheet);
+                
+                let puzzle_map = main_db.get(puzzle);
+                puzzle_map.set(canonical_sheet_name, processed_algsheet);
             });
         }
     }
