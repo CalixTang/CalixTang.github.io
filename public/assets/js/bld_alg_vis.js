@@ -16,7 +16,7 @@ const bld_sheet_ids = new Map([
 const bld_sheet_commsheet_names = new Map([
     ["3x3x3", ['UF', 'UB', 'UR', 'UL', 'FR', 'FL', 'DF', 'DB', 'DR', 'DL', 'UFR', 'UFL', 'UBR', 'UBL', 'DFR', 'DFL']], 
     ["4x4x4", ['Ufr (centers)', 'UFr (wings)', 'UFR (corners)']],
-    ["5x5x5", ['Uf (+ centers)', 'Ufr (x centers)', 'UFr (wings)', 'UF (midges)', 'UFR (corners)']]
+    ["5x5x5", ['Uf (%2B centers)', 'Ufr (x centers)', 'UFr (wings)', 'UF (midges)', 'UFR (corners)']]
 ]);
 
 const synonym_sticker_names = new Map([
@@ -97,6 +97,19 @@ const synonym_sticker_names = new Map([
     ["DbL", "DLb"]
 ]);
 
+const bld_to_cubing_notation = new Map([
+    //inner layer turns
+    ["u", "2U"],
+    ["d", "2D"],
+    ["f", "2F"],
+    ["b", "2B"],
+    ["r", "2R"],
+    ["l", "2L"],
+    ["m", "3L"],
+    ["e", "3D"],
+    ["s", "3F"],
+])
+
 let main_db = new Map();
 
 function update_twisty_player() {
@@ -143,13 +156,25 @@ function update_twisty_player() {
     //update the twisty-player algo
     if (alg !== null) {
         let full_alg = expand_comm(alg);
-        twist_player.setAttribute("experimental-setup-alg", invert_alg(full_alg));
-        twist_player.alg = full_alg;
-        twist_player.puzzle = puzzle;
+        
         comm_text_elem.textContent = alg;
         alg_text_elem.textContent = full_alg;
+
+        let full_alg_translated = translate_from_bld_notation(full_alg);
+
+        twist_player.setAttribute("experimental-setup-alg", invert_alg(full_alg_translated));
+        twist_player.alg = full_alg_translated;
+        twist_player.puzzle = puzzle;
     }
 }
+
+function translate_from_bld_notation(bld_not_alg) {
+    let translated_alg = bld_not_alg.slice();
+    for (const [k, v] of bld_to_cubing_notation) {
+        translated_alg = translated_alg.replaceAll(k, v);
+    }
+    return translated_alg;
+} 
 
 function search_comm(comm_input, puzzle = "3x3x3") {
     comm_input = comm_input.trim();
@@ -292,7 +317,7 @@ function expand_comm(comm_algo) {
             }
             
             //if no numbers, multiplicity is 1. otherwise, parse the number
-            let mult = (move.match(/([0-9]+)/) == null) ? 1 : parseInt(move.match(/([0-9]+)/)[0]);
+            let mult = (move.match(/([0-9]+)/) == null) ? 1 : parseInt(move.match(/([0-9]+)/)[-1]);
             
             //total movement = dir * mult
             return mult * dir;
@@ -542,6 +567,7 @@ async function fetch_url_data(url) {
     const response = await fetch(url);
     if (!response.ok) {
         const message = `An error has occured: ${response.status}`;
+        console.log(response);
         throw new Error(message);
     }
     
