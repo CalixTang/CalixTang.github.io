@@ -162,9 +162,9 @@ function update_twisty_player() {
 
         let full_alg_translated = translate_from_bld_notation(full_alg);
 
+        twist_player.puzzle = puzzle;
         twist_player.setAttribute("experimental-setup-alg", invert_alg(full_alg_translated));
         twist_player.alg = full_alg_translated;
-        twist_player.puzzle = puzzle;
     }
 }
 
@@ -271,6 +271,7 @@ function expand_comm(comm_algo) {
             ["f", "x"],
             ["b", "x"],
             ["S", "x"],
+            ["s", "x"],
             ["x", "x"],
             ["U", "y"],
             ["Uw", "y"],
@@ -279,6 +280,7 @@ function expand_comm(comm_algo) {
             ["u", "y"],
             ["d", "y"],
             ["E", "y"],
+            ["e", "y"],
             ["y", "y"],
             ["R", "z"],
             ["Rw", "z"],
@@ -287,6 +289,7 @@ function expand_comm(comm_algo) {
             ["r", "z"],
             ["l", "z"],
             ["M", "z"],
+            ["m", "z"],
             ["z", "z"]
         ])
 
@@ -346,7 +349,7 @@ function expand_comm(comm_algo) {
     //part 1: expand alg and remove comm notation 
 
     //regex strings
-    const tokenize_regex = /([A-Za-z0-9(),:\/']+)([A-Z(),:\/])/g; //alphanumeric/parentheses/operator followed by parentheses/operator
+    const tokenize_regex = /([A-Za-z0-9(),:\/']+)([(),:\/])|([(),:\/']+)([A-Z])/g; //alphanumeric/parentheses/operator followed by parentheses/operator
     const operator_regex = /[,:\/]/g; //operators (comma, colon, forwards slash)
 
     //remove surrounding whitespace
