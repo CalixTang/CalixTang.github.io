@@ -2,6 +2,7 @@ const input_id = "bld-vis-input";
 const player_id = "bld-vis-player";
 const vis_comm_id = "bld-vis-comm";
 const vis_alg_id = "bld-vis-full-alg";
+const error_text_id = "bld-vis-error";
 
 const sheets_read_api_key = 'AIzaSyBNbrZ8i83cWf7CJuLlr3wuzCjmffE0E8k';
 
@@ -117,6 +118,7 @@ function update_twisty_player() {
     let twist_player = document.getElementById(player_id);
     let comm_text_elem = document.getElementById(vis_comm_id);
     let alg_text_elem = document.getElementById(vis_alg_id);
+    let error_text_elem = document.getElementById(error_text_id);
     let alg_input_text = alg_input.value;
 
     //figure out puzzle
@@ -154,17 +156,31 @@ function update_twisty_player() {
     
 
     //update the twisty-player algo
-    if (alg !== null) {
+    if (alg && alg.stack && alg.message) {
+        //error
+        alg_input.classList.add("error");
+        comm_text_elem.textContent = "";
+        alg_text_elem.textContent = "";
+        error_text_elem.style = "";
+        error_text_elem.textContent = alg.message;
+    } else if (alg !== null) {
+        console.log(alg);
+        alg_input.classList.remove("error");
+
         let full_alg = expand_comm(alg);
         
         comm_text_elem.textContent = alg;
         alg_text_elem.textContent = full_alg;
+        error_text_elem.textContent = "";
+        error_text_elem.style = "display: none;";
 
         let full_alg_translated = translate_from_bld_notation(full_alg);
 
         twist_player.puzzle = puzzle;
         twist_player.setAttribute("experimental-setup-alg", invert_alg(full_alg_translated));
         twist_player.alg = full_alg_translated;
+    } else {
+        //???
     }
 }
 
@@ -193,16 +209,14 @@ function search_comm(comm_input, puzzle = "3x3x3") {
 
             let comm_algo = main_db.get(puzzle).get(targets[0]).get(targets[1]).get(targets[2]);
 
-            return comm_algo;
+            return comm_algo !== undefined ? comm_algo : Error(`No commutator exists for query ${comm_input}.`);
         } catch (e) {
-            //TODO: provide user feedback to say invalid algo
-            console.log("Error in querying singmaster alg");
-            console.log(e);
+            return Error(`No commutator exists for query ${comm_input}.`);
         }
         
     } else {
         console.log("Alg is not in a valid notation.")
-        return null;
+        return Error(`Invalid commutator search query: ${comm_input}.`);
     }
 }
 
@@ -622,9 +636,15 @@ function main() {
         }
     }
 
+    let alg_input_timeout;
+
+    //set up the event listener for alg input. will only process the query if no changes have been made for 250 ms
     let alg_input = document.getElementById(input_id);
     alg_input.addEventListener("input", () => {
-        update_twisty_player();
+        clearTimeout(alg_input_timeout);
+
+        // Set a new timeout
+        alg_input_timeout = setTimeout(update_twisty_player, 500);
       });
 
 

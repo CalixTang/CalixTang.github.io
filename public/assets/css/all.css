@@ -1,8 +1,47 @@
 /* This sheet contains global styles. Used in partials/extend_footer and is applied by default to all content pages. */
+:root {
+    --error-color:#ff698c;
+    --error-text-color:#bb0010;
+    --rubiks-white: #dddddd;
+    --rubiks-orange: #ff8000;
+    --rubiks-green: #44ee00;
+    --rubiks-red: #ff0000;
+    --rubiks-blue: #2266ff;
+    --rubiks-yellow: #f4f400;
+}
+
 input {
     box-sizing: content-box;
     border: solid var(--content) 2px;
     border-radius: 5px;
     color: var(--content);
     padding: 0 5px 0;
+}
+
+.error {
+    border-color: var(--error-color);
+}
+
+.error-text::before{
+    content: "\26A0";
+}
+
+.error-text {
+    color: var(--error-text-color);
+    font-size: 70%;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;      /* display on top of each other */
+}
+@media (max-width: 768px) {
+    .row > * {
+        width: 100% !important;  /* might be required in order to override inline styles */
+    }
+}
+@media (min-width: 768px) {      /* on screens larger than 768px */
+    .row {
+        flex-direction: row;     /* display next to each other */
+    }
 }

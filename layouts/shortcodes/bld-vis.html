@@ -1,15 +1,18 @@
 <!-- HTML for blindfolded algorithm visualization. Should be used only once per page. -->
 <script src = "/assets/js/bld_alg_vis.js" type="module" defer></script>
 
-<div>
-  <p>Enter BLD algorithm to visualize:</p>
-  <input type="text" id="bld-vis-input" autofocus placeholder="none"/>
-</div>
-<br>
-<div>
-  <div>Comm: <span id = "bld-vis-comm"></span></div>
-  <div>Full alg: <span id = "bld-vis-full-alg"></span></div>
-  <twisty-player id="bld-vis-player"></twisty-player>
+
+<div class = "row">
+  <div>
+    <span>Alg to visualize:</span>
+    <input type="text" id = "bld-vis-input" autofocus placeholder="none"/>
+    <div id = "bld-vis-error" class = "error-text" style = "display:none;"></div>
+    <div>Comm: <span id = "bld-vis-comm"></span></div>
+    <div>Full alg: <span id = "bld-vis-full-alg"></span></div>
+  </div>
+  <div>
+    <twisty-player id="bld-vis-player"></twisty-player>
+  </div>
 </div>
 
 
