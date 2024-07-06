@@ -795,7 +795,6 @@ function main() {
             // let raw_algsheet = fetch_url_data(api_url_base);
             fetch_url_data(api_url_base).then(data => {
                 let algsheet_arr = data.values;
-                console.log(algsheet_arr);
                 process_3_target_sheet(algsheet_arr, puzzle, true);
             });
         }
@@ -807,7 +806,6 @@ function main() {
             // let raw_algsheet = fetch_url_data(api_url_base);
             fetch_url_data(api_url_base).then(data => {
                 let algsheet_arr = data.values;
-                console.log(algsheet_arr);
                 process_4_target_sheet(algsheet_arr, puzzle);
             });
         }
