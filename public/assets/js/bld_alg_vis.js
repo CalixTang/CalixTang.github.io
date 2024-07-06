@@ -29,8 +29,10 @@ const BLD_PARITY_SHEET_NAMES = new Map([
     // ["4x4x4", ["4BLD Wing Parity"]]
 ])
 
-const BLD_FLIPS_TWISTS_SHEET_NAMES = new Map([
-    ["3x3x3", ["Flips", "3Twists"]]
+const BLD_2_TARGET_SHEET_NAMES = new Map([
+    ["3x3x3", ["2Flips"]],
+    ["4x4x4", ["4BLD Wing Parity"]],
+    ["5x5x5", []],
 ])
 
 const SYNONYM_TO_STICKER = new Map([
@@ -807,6 +809,17 @@ function main() {
             fetch_url_data(api_url_base).then(data => {
                 let algsheet_arr = data.values;
                 process_4_target_sheet(algsheet_arr, puzzle);
+            });
+        }
+
+        //fetch flip/twist sheets
+        for (let sheet_name of BLD_2_TARGET_SHEET_NAMES.get(puzzle)) {
+            
+            let api_url_base = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}/values/${sheet_name}?key=${SHEETS_READ_API_KEY}`;
+            // let raw_algsheet = fetch_url_data(api_url_base);
+            fetch_url_data(api_url_base).then(data => {
+                let algsheet_arr = data.values;
+                process_2_target_sheet(algsheet_arr, puzzle);
             });
         }
     }
