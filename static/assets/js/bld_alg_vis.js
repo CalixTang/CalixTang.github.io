@@ -1,26 +1,39 @@
+import { TrieDBNode } from './trie_db.js';
+
 const input_id = "bld-vis-input";
 const player_id = "bld-vis-player";
-const vis_comm_id = "bld-vis-comm";
-const vis_alg_id = "bld-vis-full-alg";
+const vis_alg_id = "bld-vis-alg";
+const vis_full_alg_id = "bld-vis-full-alg";
 const error_text_id = "bld-vis-error";
 
-const sheets_read_api_key = 'AIzaSyBNbrZ8i83cWf7CJuLlr3wuzCjmffE0E8k';
+const SHEETS_READ_API_KEY = 'AIzaSyBNbrZ8i83cWf7CJuLlr3wuzCjmffE0E8k';
 
 // TODO: make a 5bld sheet and link here
-const bld_sheet_ids = new Map([
+const BLD_SHEET_IDS = new Map([
     ["3x3x3", "173B6VXROBCyCceSZ7sKPeWW0lZYNo1b5HvtVRlDUW_8"], 
     ["4x4x4", "1vcmUqvBrkvsviOJc2dY16kGU6fSKPM5I2T_L33LUGpM"], 
     ["5x5x5", "11nBD2RWxEorVhvKHgcw9CWHEqvUy0FYWpuNxwefspUM"]
 ]);
 
 //TODO: add 2e2e, 2c2c, Parities, etc
-const bld_sheet_commsheet_names = new Map([
+const BLD_COMM_SHEET_NAMES = new Map([
     ["3x3x3", ['UF', 'UB', 'UR', 'UL', 'FR', 'FL', 'DF', 'DB', 'DR', 'DL', 'UFR', 'UFL', 'UBR', 'UBL', 'DFR', 'DFL']], 
     ["4x4x4", ['Ufr (centers)', 'UFr (wings)', 'UFR (corners)']],
     ["5x5x5", ['Uf (%2B centers)', 'Ufr (x centers)', 'UFr (wings)', 'UF (midges)', 'UFR (corners)']]
 ]);
 
-const synonym_sticker_names = new Map([
+const BLD_PARITY_SHEET_NAMES = new Map([
+    ["3x3x3", ["Parity"]],
+    ["4x4x4", []],
+    ["5x5x5", []],
+    // ["4x4x4", ["4BLD Wing Parity"]]
+])
+
+const BLD_FLIPS_TWISTS_SHEET_NAMES = new Map([
+    ["3x3x3", ["Flips", "3Twists"]]
+])
+
+const SYNONYM_TO_STICKER = new Map([
     //corners
     ["ULB", "UBL"],
     ["URB", "UBR"],
@@ -98,6 +111,10 @@ const synonym_sticker_names = new Map([
     ["DbL", "DLb"]
 ]);
 
+const CANONICAL_EDGE_BUFFER_ORDER = ['UF', 'UB', 'UR', 'UL', 'FR', 'FL', 'DF', 'DB', 'DR', 'DL'];
+
+const CANONICAL_CORNER_BUFFER_ORDER = ['UFR', 'UFL', 'UBR', 'UBL', 'DFR', 'DFL'];
+
 const bld_to_cubing_notation = new Map([
     //inner layer turns
     ["u", "2U"],
@@ -110,68 +127,68 @@ const bld_to_cubing_notation = new Map([
     ["e", "3D"],
     ["s", "3F"],
 ])
-
-let main_db = new Map();
+let main_db = new TrieDBNode();
 
 function update_twisty_player() {
     let alg_input = document.getElementById(input_id);
     let twist_player = document.getElementById(player_id);
-    let comm_text_elem = document.getElementById(vis_comm_id);
     let alg_text_elem = document.getElementById(vis_alg_id);
+    let full_alg_text_elem = document.getElementById(vis_full_alg_id);
     let error_text_elem = document.getElementById(error_text_id);
     let alg_input_text = alg_input.value;
 
-    //figure out puzzle
-    let puzzle = "3x3x3";
-    
-    //check if puzzle is explicitly given first - if not, infer (and default to smallest possible)
-    const puzzle_regex = /\[([3-5])x\1(?:x\1)?\]/g
-    let explicit_puzzle = alg_input_text.match(puzzle_regex);
-    if (explicit_puzzle != null) {
-        explicit_puzzle = explicit_puzzle[0].replaceAll("[", "").replaceAll("]", "").trim();
-        if (explicit_puzzle.length == 3) {
-            explicit_puzzle = explicit_puzzle + "x" + explicit_puzzle.at(0); //turn nxn to nxnxn
-        }
-        puzzle = explicit_puzzle;
-
-        alg_input_text = alg_input_text.replaceAll(puzzle_regex, "").trim();
-    } else {
-        //try to infer the puzzle type.
-        let temp_buf = alg_input_text.trim().split("-")[0]; 
-        if (temp_buf.match(/([a-z]+)/) != null) {
-            //if there are any lowercase letters in the piece name, it can't be 3x3.
-            //the only case where we can safely assume 5x5 is for + centers (Uf, Fu, etc). otherwise, we assume 4x4.
-            if (temp_buf.length == 2) {
-                puzzle = "5x5x5";
-            } else {
-                puzzle = "4x4x4";
-            }
-        } 
-    }
-    
-
-    //search up algo
-    let alg = search_comm(alg_input_text, puzzle);
-    // console.log(alg);
-    
-
-    //update the twisty-player algo
-    if (alg && alg.stack && alg.message) {
-        //error
-        alg_input.classList.add("error");
-        comm_text_elem.textContent = "";
+    if (alg_input_text == "") {
+        alg_input.classList.remove("error");
+        
         alg_text_elem.textContent = "";
-        error_text_elem.style = "";
+        full_alg_text_elem.textContent = "";
+        error_text_elem.textContent = "";
+        alg_text_elem.style = "display: none;";
+        full_alg_text_elem.style = "display: none;";
+        error_text_elem.style = "display: none;";
+
+        twist_player.puzzle = "3x3x3";
+        twist_player.setAttribute("experimental-setup-alg", "");
+        twist_player.alg = "";
+
+        return;
+    }
+
+    //get the puzzle type
+    let {puzzle, alg_query} = extract_puzzle(alg_input_text)
+    console.log("Input alg:", alg_query);
+    
+    //figure out algorithm type (comm, parity, twist, flip, etc.)
+    let alg_type = extract_alg_type(alg_query);
+    console.log("Alg type:", alg_type);
+    
+    //search up algo (query main db)
+    let alg = search_alg(alg_query, puzzle, alg_type);
+    console.log(alg);
+
+    
+    if (alg && alg.stack && alg.message) {
+        //process error and update UI
+        alg_input.classList.add("error");
+        alg_text_elem.textContent = "";
+        full_alg_text_elem.textContent = "";
         error_text_elem.textContent = alg.message;
+
+        alg_text_elem.style = "display: none;";
+        full_alg_text_elem.style = "display: none;";
+        error_text_elem.style = "";
     } else if (alg !== null) {
-        console.log(alg);
+        //update the twisty-player algo
         alg_input.classList.remove("error");
 
-        let full_alg = expand_comm(alg);
+        let full_alg = expand_alg(alg);
         
-        comm_text_elem.textContent = alg;
-        alg_text_elem.textContent = full_alg;
+        alg_text_elem.textContent = alg;
+        full_alg_text_elem.textContent = full_alg;
         error_text_elem.textContent = "";
+
+        alg_text_elem.style = "";
+        full_alg_text_elem.style = "";
         error_text_elem.style = "display: none;";
 
         let full_alg_translated = translate_from_bld_notation(full_alg);
@@ -184,6 +201,129 @@ function update_twisty_player() {
     }
 }
 
+function extract_puzzle(input) {
+    let puzzle = "3x3x3";
+    input = input.trim();
+    //check if puzzle is explicitly given first - if not, infer (and default to smallest possible)
+    const puzzle_regex = /\[([3-5])x\1(?:x\1)?\]/g
+    let explicit_puzzle = input.match(puzzle_regex);
+    if (explicit_puzzle != null) {
+        explicit_puzzle = explicit_puzzle[0].replaceAll("[", "").replaceAll("]", "").trim();
+        if (explicit_puzzle.length == 3) {
+            explicit_puzzle = explicit_puzzle + "x" + explicit_puzzle.at(0); //turn nxn to nxnxn
+        }
+        puzzle = explicit_puzzle;
+
+        //remove the explicit puzzle spec from the input.
+        input = input.replaceAll(puzzle_regex, "").trim();
+    } else {
+        //try to infer the puzzle type - get the first piece
+        let temp_buf = input.match(/([UDFBRLudfbrl]{2,3})/)[0]
+        if (temp_buf.match(/([udfbrl]+)/) != null) {
+            //if there are any lowercase letters in the piece name, it can't be 3x3.
+            //the only case where we can safely assume 5x5 is for + centers (Uf, Fu, etc). otherwise, we assume 4x4.
+            if (temp_buf.length == 2) {
+                puzzle = "5x5x5";
+            } else {
+                puzzle = "4x4x4";
+            }
+        } 
+    }
+
+    return {puzzle, alg_query: input};
+}
+
+function extract_alg_type(input) {
+
+    const comm_regex = /^[UDFBRLudfbrl]{2,3}-[UDFBRLudfbrl]{2,3}-[UDFBRLudfbrl]{2,3}$/;
+    const parity_regex = /^([UDFBRLudfbrl]{2}-[UDFBRLudfbrl]{2} [UDFBRLudfbrl]{3}-[UDFBRLudfbrl]{3}|[UDFBRLudfbrl]{3}-[UDFBRLudfbrl]{3} [UDFBRLudfbrl]{2}-[UDFBRLudfbrl]{2})$/
+    const _2e2e_regex = /^[UDFBRLudfbrl]{2}-[UDFBRLudfbrl]{2} UDFBRLudfbrl]{2}-[UDFBRLudfbrl]{2}$/
+    const _2c2c_regex = /^[UDFBRLudfbrl]{3}-[UDFBRLudfbrl]{3} UDFBRLudfbrl]{3}-[UDFBRLudfbrl]{3}$/
+
+    if (input.match(comm_regex) != null) {
+        return "commutator";
+    } else if (input.match(parity_regex) != null) {
+        return "parity";
+    } else if (input.match(_2e2e_regex) != null) {
+        return "2e2e";
+    } else if (input.match(_2c2c_regex) != null) {
+        return "2c2c";
+    } else {
+        return "invalid";
+    }
+}
+
+function search_alg(input, puzzle, alg_type) {
+
+    function canonify(targets){
+        canonify_sticker_names(targets);
+        canonify_target_orientations(targets);
+        canonify_target_orders(targets);
+    }
+
+    function canonify_sticker_names(targets) {
+        for (let i in targets) {
+            let target = targets[i];
+            if (SYNONYM_TO_STICKER.has(target)) {
+                targets[i] = SYNONYM_TO_STICKER.get(target);
+            }
+        }
+    }
+
+    function canonify_target_orientations(targets) {
+        //TOOD implement
+        return
+    }
+
+    function canonify_target_orders(targets) {
+        //TODO implement
+        return
+    }
+    
+    function canonify_input_comm(comm_input) {
+        comm_input = comm_input.trim();
+        let targets = comm_input.split("-");
+        canonify(targets);
+
+        return targets;
+    }
+    function canonify_input_parity(parity_input) {
+        parity_input = parity_input.trim();
+        let tmp_re = /^([UDFBRLudfbrl]{2}-[UDFBRLudfbrl]{2}) ([UDFBRLudfbrl]{3}-[UDFBRLudfbrl]{3})$/
+        parity_input = parity_input.replace(tmp_re, "$2 $1");
+        let targets = parity_input.replace(" ", "-").split("-");
+        canonify(targets);
+        
+        return targets;
+    }
+
+    let targets = [];
+
+    if (alg_type == "commutator") {
+        targets = canonify_input_comm(input, puzzle);
+    } else if (alg_type == "parity") {
+        targets = canonify_input_parity(input, puzzle);
+    } else if (alg_type == "twist") {
+        return Error("Twists not implemented yet.")
+    } else if (alg_type == "flip") {
+        return Error("Flips not implemented yet.")
+    } else if (alg_type == "LTCT") {
+        return Error("LTCT not implemented yet.")
+    } else {
+        return Error(`Unrecognized algorithm type.`)
+    }
+
+    try {
+        let query = [puzzle].concat(targets);
+
+        let alg = main_db.get(query);
+
+        return alg !== undefined ? alg : Error(`No algorithm exists for query ${input}.`);
+    } catch (e) {
+        return Error(`No algorithm exists for query ${input}.`);
+    }
+}
+
 function translate_from_bld_notation(bld_not_alg) {
     let translated_alg = bld_not_alg.slice();
     for (const [k, v] of bld_to_cubing_notation) {
@@ -191,39 +331,6 @@ function translate_from_bld_notation(bld_not_alg) {
     }
     return translated_alg;
 } 
-
-function search_comm(comm_input, puzzle = "3x3x3") {
-    comm_input = comm_input.trim();
-
-    if (is_singmaster_not(comm_input)) {
-        let targets = comm_input.split("-");
-        try {
-
-            //map ambiguous sticker names correctly
-            for (let i in targets) {
-                let target = targets[i];
-                if (synonym_sticker_names.has(target)) {
-                    targets[i] = synonym_sticker_names.get(target);
-                }
-            }
-
-            let comm_algo = main_db.get(puzzle).get(targets[0]).get(targets[1]).get(targets[2]);
-
-            return comm_algo !== undefined ? comm_algo : Error(`No commutator exists for query ${comm_input}.`);
-        } catch (e) {
-            return Error(`No commutator exists for query ${comm_input}.`);
-        }
-        
-    } else {
-        console.log("Alg is not in a valid notation.")
-        return Error(`Invalid commutator search query: ${comm_input}.`);
-    }
-}
-
-function is_singmaster_not(comm_input) {
-    const re = /^[UDFBRLudfbrl]{2,3}-[UDFBRLudfbrl]{2,3}-[UDFBRLudfbrl]{2,3}$/;
-    return comm_input.match(re) != null;
-}
 
 function invert_alg(alg) {
     return invert_tokenized_alg(alg.trim().split(" ")).join(" ");
@@ -239,10 +346,10 @@ function invert_tokenized_alg(alg) {
     });
 }
 
-function expand_comm(comm_algo) {
-    /** Transform a commutator from comm notation to a fully expanded algo. 
+function expand_alg(input_alg) {
+    /** Transform input from comm notation to a fully expanded alg. 
      * 
-     * I trust myself to make my comms non-ambiguous, but in the case of something like A, B, C I interpret it as A, (B, C)
+     * I trust myself to make my comms disambiguous, but in the case of something like A, B, C I interpret it as A, (B, C)
      * 
      */
 
@@ -317,7 +424,7 @@ function expand_comm(comm_algo) {
     }
 
     function cancel_moves(A, B) {
-        /** Cancels two moves (singular tokens). This algo only handles direct cancel cases like U U  = U2, U U' = (). Does not handle Uw D' = y
+        /** Cancels two moves (singular tokens). This alg only handles direct cancel cases like U U  = U2, U U' = (). Does not handle Uw D' = y
          * 
          * params
          * 
@@ -367,21 +474,21 @@ function expand_comm(comm_algo) {
     const operator_regex = /[,:\/]/g; //operators (comma, colon, forwards slash)
 
     //remove surrounding whitespace
-    comm_algo = comm_algo.trim();
+    input_alg = input_alg.trim();
 
     //put spaces before commas, parentheses, colon, and slash. also tokenize
-    while (comm_algo.match(tokenize_regex) != null) {
-        comm_algo = comm_algo.replace(tokenize_regex, "$1 $2");
+    while (input_alg.match(tokenize_regex) != null) {
+        input_alg = input_alg.replace(tokenize_regex, "$1 $2");
     }
-    let tokenized_comm_algo = comm_algo.split(' ');
+    let tokenized_input_alg = input_alg.split(' ');
     let stack = [];
     let op_1 = [];
     let op_2 = [];
     let op = null;
 
     let i = 0;
-    while (i < tokenized_comm_algo.length) {
-        let curr_token = tokenized_comm_algo[i];
+    while (i < tokenized_input_alg.length) {
+        let curr_token = tokenized_input_alg[i];
 
         // console.log("op_1, op_2, op, stack, curr_token | ", op_1, op_2, op, stack, curr_token )
 
@@ -514,7 +621,7 @@ function expand_comm(comm_algo) {
         let prev_token = stack.pop();
 
         if (prev_token == '(') {
-            throw new SyntaxError(`Imbalanced parentheses in expression ${comm_algo}`);
+            throw new SyntaxError(`Imbalanced parentheses in expression ${input_alg}`);
         } else if (prev_token.match(operator_regex) != null) {
             if (op == null) {
                 op = prev_token;
@@ -534,12 +641,10 @@ function expand_comm(comm_algo) {
         }
     }
 
-    let expanded_tokenized_algo = apply_operator(op_1, op_2, op);
-
-    console.log(expanded_tokenized_algo);
+    let expanded_tokenized_alg = apply_operator(op_1, op_2, op);
 
     //part 2: apply cancellations
-    let alg = expanded_tokenized_algo.slice();
+    let alg = expanded_tokenized_alg.slice();
     i = 0;
     let len = alg.length;
     while (i < len - 1) {
@@ -592,46 +697,118 @@ async function fetch_url_data(url) {
     return data;
 }
 
-function process_commsheet(algsheet) {
-    /** Process a comm sheet!
-     * TODO implement
+function process_2_target_sheet(sheet, puzzle, use_order_row_col = false) {
+    /** Process a sheet that only uses 2 targets. 
+     * This method is suitable for 2-swaps (wing parities), 2-twists, or 2-flips.
+     * Return:
+     *      a Map(target 1 : Map(target 2)), where target 1 along the column and target 2 is along the row.
      */
 
-    let comm_map = new Map();
+    let col_cap = use_order_row_col ? sheet[0].length - 1 : sheet[0].length;
+    let row_cap = use_order_row_col ? sheet.length - 1 : sheet.length;
 
-    for (let i = 1; i < algsheet.length - 1; i++) {
-        let first_target = algsheet[algsheet.length - 1][i];
-        let first_target_map = new Map();
+    for (let i = 1; i < row_cap; i++) {
+        for (let j = 1; j < col_cap; j++) {
+            let value = sheet[i][j];
 
-        for (let j = 1; j < algsheet.length - 1; j++) {
-            let second_target = algsheet[j][algsheet.length - 1];
-            let alg = algsheet[j][i];
-
-            first_target_map.set(second_target, alg);
+            if (value != "") {
+                let query = [puzzle, use_order_row_col ? sheet[i][sheet[0].length - 1] : sheet[i][0], use_order_row_col ? sheet[sheet.length - 1][j] : sheet[0][j]];
+                main_db.add(query, value);
+            }
+            
         }
-        comm_map.set(first_target, first_target_map);
+    }
+}
+
+function process_3_target_sheet(sheet, puzzle, use_order_row_col = false) {
+    /** Process a sheet that involves 3 targets. 
+     * This method is suitable for all 3-cycles
+     * 
+     * Target order: sheet[0][0], first col, first row
+     */
+
+    let col_cap = use_order_row_col ? sheet[0].length - 1 : sheet[0].length;
+    let row_cap = use_order_row_col ? sheet.length - 1 : sheet.length;
+
+    for (let i = 1; i < row_cap; i++) {
+        for (let j = 1; j < col_cap; j++) {
+            let value = sheet[i][j];
+
+            if (value != "") {
+                let query = [puzzle, sheet[0][0], use_order_row_col ? sheet[i][sheet[0].length - 1] : sheet[i][0], use_order_row_col ? sheet[sheet.length - 1][j] : sheet[0][j]];
+                main_db.add(query, value);
+            }
+        }
+    }
+}
+
+//no order row or col is possible for 4 target sheets
+function process_4_target_sheet(sheet, puzzle) {
+    /** Process a sheet that involves 4 targets. 
+     * This method is suitable for all 2x-2x swaps, including parities, 2e2e, 2c2c.
+     * 
+     * Target order: first col, second col, first row, second row
+     */
+
+    //fill in the blanks for first col and row
+    let curr_col_target = "";
+    let curr_row_target = "";
+    for (let i = 2; i < sheet.length - 1; i++) {
+        if (sheet[i][0] != "") {
+            curr_col_target = sheet[i][0];
+        } else {
+            sheet[i][0] = curr_col_target;
+        }
+        
+    }
+    for (let i = 2; i < sheet[0].length - 1; i++) {
+        if (sheet[0][i] != "") {
+            curr_row_target = sheet[0][i];
+        } else {
+            sheet[0][i] = curr_row_target;
+        }
     }
 
-    return comm_map;
+    //sweep over everything (3.., 3..) and reference first 2 cols and rows for targets
+    for (let i = 2; i < sheet.length - 1; i++) {
+        for (let j = 2; j < sheet[0].length - 1; j++) {
+            let value = sheet[i][j];
+            
+            if (value != "") {
+                let query = [puzzle, sheet[i][0], sheet[i][1], sheet[0][j], sheet[1][j]];
+                main_db.add(query, value);
+            }
+        }
+    }
 }
+
 
 function main() {
     // main_db = new Map();
 
-    for (let [puzzle, spreadsheet_id] of bld_sheet_ids) {
-        main_db.set(puzzle, new Map());
-        for (let sheet_name of bld_sheet_commsheet_names.get(puzzle)) {
+    for (let [puzzle, spreadsheet_id] of BLD_SHEET_IDS) {
+
+        //fetch all commutator sheets
+        for (let sheet_name of BLD_COMM_SHEET_NAMES.get(puzzle)) {
             
-            let api_url_base = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}/values/${sheet_name}?key=${sheets_read_api_key}`;
+            let api_url_base = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}/values/${sheet_name}?key=${SHEETS_READ_API_KEY}`;
             // let raw_algsheet = fetch_url_data(api_url_base);
             fetch_url_data(api_url_base).then(data => {
                 let algsheet_arr = data.values;
-                let processed_algsheet = process_commsheet(algsheet_arr);
-                // console.log(processed_algsheet);
-                let canonical_sheet_name = sheet_name.split(' ')[0];
-                
-                let puzzle_map = main_db.get(puzzle);
-                puzzle_map.set(canonical_sheet_name, processed_algsheet);
+                console.log(algsheet_arr);
+                process_3_target_sheet(algsheet_arr, puzzle, true);
+            });
+        }
+
+        //fetch all parity sheets
+        for (let sheet_name of BLD_PARITY_SHEET_NAMES.get(puzzle)) {
+            
+            let api_url_base = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheet_id}/values/${sheet_name}?key=${SHEETS_READ_API_KEY}`;
+            // let raw_algsheet = fetch_url_data(api_url_base);
+            fetch_url_data(api_url_base).then(data => {
+                let algsheet_arr = data.values;
+                console.log(algsheet_arr);
+                process_4_target_sheet(algsheet_arr, puzzle);
             });
         }
     }
@@ -656,8 +833,10 @@ function main() {
     // ]
 
     // for (let test_case of test_cases) {
-    //     console.log(test_case, " | ", expand_comm(test_case))
+    //     console.log(test_case, " | ", expand_alg(test_case))
     // }
+
+    
     
 }
 main();

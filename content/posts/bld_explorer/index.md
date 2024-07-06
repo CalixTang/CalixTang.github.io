@@ -13,18 +13,34 @@ This page allows you to search and view the algorithms I use to solve the Rubik'
 
 ## Usage Guide
 
+### Sticker Notation
+Since almost all blindfolded algorithms are denoted using pieces or stickers, we need to define sticker notation. All edges and corners are formed of multiple stickers, so for these types of pieces each sticker not only denotes a piece, but also the orientation of that piece. 
+
+> Note: all examples in this guide are written assuming **WCA orientation** (green front, white top).
+
+The rules for naming a sticker are as follows:
+1. The name of each sticker is derived from the names of the faces of which the sticker forms an intersection.
+2. The face that the sticker lays on is always the first letter in the sticker name. The order of the rest of the faces does not matter. 
+    * Example: The white sticker of the white-green edge on a 3x3 is UF, but the green sticker of the same piece is FU.
+3. For larger cubes, pieces on inner slices use lowercase letters to indicate an inner slice. 
+    * Example: Ufr refers to the center closest to the UFR piece on a 4x4. It may also refer to the x center closest to the UFR piece on a 5x5. 
+
 
 ### Searching Commutators
-As of 6/25/24: 
-* You can use sticker notation to search up commutators. Piece names are derived from the names of the faces that they form the intersection of. In this notation, the first letter of the sticker name should be the face that the sticker lies on. For example, the white sticker of the white-green edge on a 3x3 is UF, but the green sticker of the same piece is FU (if you are holding the cube in WCA orientation).    
-    * Corners, 4x4 centers, and 5x5 x-centers all have two possible names. UFR and URF are both correct names for the white sticker of the white-green-red corner (assuming WCA orientation). 
-    * For larger cubes, pieces on inner slices use lowercase letters to indicate an inner slice. For example, Ufr refers to the center closest to the UFR piece on a 4x4. It may also refer to the x center closest to the UFR piece on a 5x5. 
-    * You can add the cube name in brackets (e.g. [4x4], [3x3x3]) in front of the commutator name ([4x4] Ufr-Ldb-Fdl). This is useful (and necessary) in cases of ambiguity, like the one listed on the above bullet point. It may also be useful to visualize an algorithm on a different cube, like with corner commutators on different puzzles. If the puzzle name is not specified, the smallest possible cube is used by default.
+In the context of blindfolded solving, commutators are ordered and oriented cycles of 3 pieces. We reference these cycles by typing 3 stickers that define the cycle in order and putting the buffer piece first. For this tool, put the 3 stickers in order with 2 dashes in between to denote the commutator. 
 
+Examples:
+* UF-UR-BD will query the 3x3 edge commutator for the UF buffer with UR as the first target and BD as the second target.
+* UBR-FDL-RDB will query the 3x3 corrner commutator for the UBR buffer with FDL as the first target and RDB as the second target.
 
-### Examples
-* UF-UB-UR will query the 3x3 edge commutator for the <b>UF</b> buffer with UB (A in Speffz) as the first target and UR (B in Speffz) as the second target. This alg is a U perm.
-* [5x5] UF-UR-BD will query the 5x5 midge commutator algorithm for the <b>UF</b> buffer with UR as the first target and BD as the second target.
+You can explicitly put the puzzle name in brackets (e.g. [4x4], [3x3x3]) in front of the commutator. This is necessary in cases of ambiguity - like between edges on a 3x3 or midges on a 5x5. It may also be useful to visualize an algorithm on a different cube, like with corner commutators on different puzzles. If the puzzle name is not specified, the smallest possible cube is used by default.
+
+Example:
+* [5x5] UF-UR-BD will query the 5x5 commutator for the UF buffer with UR as the first target and BD as the second target. This commutator was used in an example earlier, but we need to specify that we are using a 5x5 since the 5x5 midge commutator is different than the 3x3 edge commutator.
+* [4x4] Ufr-Dfl-Bul will query the 4x4 center commutator with a Ufr buffer, Dfl as the first target, and Bul as the second target. 
+
+As of July 4, 2024, you **must** put buffer pieces first in the cycle and use normal buffer stickers (U/D layer sticker, or F/B layer for some edges) for this tool to work. I may try to allow mixing up the cycle order and using different buffer orientations later.
+
 
 ### Things I want to add to this page eventually
 * The ability to search up parity algorithms (2e2c), flips, and twists. 2e2e, 2c2c would also be nice. 
