@@ -113,10 +113,6 @@ const SYNONYM_TO_STICKER = new Map([
     ["DbL", "DLb"]
 ]);
 
-const CANONICAL_EDGE_BUFFER_ORDER = ['UF', 'UB', 'UR', 'UL', 'FR', 'FL', 'DF', 'DB', 'DR', 'DL'];
-
-const CANONICAL_CORNER_BUFFER_ORDER = ['UFR', 'UFL', 'UBR', 'UBL', 'DFR', 'DFL'];
-
 const bld_to_cubing_notation = new Map([
     //inner layer turns
     ["u", "2U"],
@@ -158,15 +154,15 @@ function update_twisty_player() {
 
     //get the puzzle type
     let {puzzle, alg_query} = extract_puzzle(alg_input_text)
-    console.log("Input alg:", alg_query);
+    // console.log("Input alg:", alg_query);
     
     //figure out algorithm type (comm, parity, twist, flip, etc.)
     let alg_type = extract_alg_type(alg_query);
-    console.log("Alg type:", alg_type);
+    // console.log("Alg type:", alg_type);
     
     //search up algo (query main db)
     let alg = search_alg(alg_query, puzzle, alg_type);
-    console.log(alg);
+    // console.log(alg);
 
     
     if (alg && alg.stack && alg.message) {
@@ -255,13 +251,96 @@ function extract_alg_type(input) {
     }
 }
 
-function search_alg(input, puzzle, alg_type) {
+function canonify(targets){
+    const CANONICAL_PIECE_ORDER = [
+        'UFR', 'FUR', 'RUF', 'UFL', 'LUF', 'FUL', 'UBR', 'RUB', 'BUR', 'UBL', 'LUB', 'BUL', 'DFR', 'FDR', 'RDF', 'DFL', 'LDF', 'FDL', 'DBR', 'RDB', 'BDR', 'DBL', 'LDB', 'BDL', //corners
+        'UF', 'FU', 'UB', 'BU', 'UR', 'RU', 'UL', 'LU', 'FR', 'RF', 'FL', 'LF', 'DF', 'FD', 'DB', 'BD', 'DR', 'RD', 'DL', 'LD', 'BR', 'RB', 'BL', 'LB', //edges, midges
+        'UFr', 'UBl', 'URb', 'ULf', 'LUb', 'LFu', 'LDf', 'LBd', 'FUl', 'FRu', 'FDr', 'FLd', 'RUf', 'RBu', 'RDb', 'RFd', 'BUr', 'BRu', 'BDl', 'BLd', 'DFl', 'DRf', 'DBr', 'DLb', //wings
+        'Ufr', 'Ubl', 'Ubr', 'Ufl', 'Lub', 'Luf', 'Ldf', 'Ldb', 'Ful', 'Fur', 'Fdr', 'Fdl', 'Ruf', 'Rub', 'Rdb', 'Rdf', 'Bur', 'Bul', 'Bdl', 'Bdr', 'Dfl', 'Dfr', 'Dbr', 'Dbl', //x centers
+        'Uf', 'Ub', 'Ur', 'Ul', 'Lu', 'Lf', 'Ld', 'Lb', 'Fu', 'Fr', 'Fd', 'Fl', 'Ru', 'Rb', 'Rd', 'Rf', 'Bu', 'Bl', 'Bd', 'Br', 'Df', 'Dr', 'Db', 'Dl', //+ centers
+    ];
 
-    function canonify(targets){
-        canonify_sticker_names(targets);
-        canonify_target_orientations(targets);
-        canonify_target_orders(targets);
-    }
+    //maps each piece to the canonical orientation of the piece and the amount of right shifts it will take to get there
+    const CANONICAL_PIECE_ORIENTATION_MAP = new Map([
+        //edges
+        ['UF', ['UF', 0]],
+        ['FU', ['UF', 1]],
+        ['UB', ['UB', 0]],
+        ['BU', ['UB', 1]],
+        ['UR', ['UR', 0]],
+        ['RU', ['UR', 1]],
+        ['UL', ['UL', 0]],
+        ['LU', ['UL', 1]],
+        ['FR', ['FR', 0]],
+        ['RF', ['FR', 1]],
+        ['FL', ['FL', 0]],
+        ['LF', ['FL', 1]],
+        ['DF', ['DF', 0]],
+        ['FD', ['DF', 1]],
+        ['DR', ['DR', 0]],
+        ['RD', ['DR', 1]],
+        ['DL', ['DL', 0]],
+        ['LD', ['DL', 1]],
+        ['DB', ['DB', 0]],
+        ['BD', ['DB', 1]],
+        ['BR', ['BR', 0]],
+        ['RB', ['BR', 1]],
+        ['BL', ['BL', 0]],
+        ['LB', ['BL', 1]],
+        //corners
+        ['UFR', ['UFR', 0]],
+        ['FUR', ['UFR', 1]],
+        ['RUF', ['UFR', 2]],
+        ['UFL', ['UFL', 0]],
+        ['LUF', ['UFL', 1]],
+        ['FUL', ['UFL', 2]],
+        ['UBR', ['UBR', 0]],
+        ['RUB', ['UBR', 1]],
+        ['BUR', ['UBR', 2]],
+        ['UBL', ['UBL', 0]],
+        ['BUL', ['UBL', 1]],
+        ['LUB', ['UBL', 2]],
+        ['DFR', ['DFR', 0]],
+        ['RDF', ['DFR', 1]],
+        ['FDR', ['DFR', 2]],
+        ['DFL', ['DFL', 0]],
+        ['FDL', ['DFL', 1]],
+        ['LDF', ['DFL', 2]],
+        ['DBR', ['DBR', 0]],
+        ['BDR', ['DBR', 1]],
+        ['RDB', ['DBR', 2]],
+        ['DBL', ['DBL', 0]],
+        ['LDB', ['DBL', 1]],
+        ['BDL', ['DBL', 2]],
+    ])
+
+    //cycles stored in CW order
+    const CANONICAL_PIECE_ORIENTATION_CYCLE = new Map([
+        //corners
+        ['UFR', ['UFR', 'RUF', 'FUR']],
+        ['UFL', ['UFL', 'FUL', 'LUF']],
+        ['UBL', ['UBL', 'LUB', 'BUL']],
+        ['UBR', ['UBR', 'BUR', 'RUB']],
+        ['DFR', ['DFR', 'FDR', 'RDF']],
+        ['DFL', ['DFL', 'LDF', 'FDL']],
+        ['DBR', ['DBR', 'RDB', 'BDR']],
+        ['DBL', ['DBL', 'BDL', 'LDB']],
+
+        //edges
+        ['UF', ['UF', 'FU']],
+        ['UB', ['UB', 'BU']],
+        ['UR', ['UR', 'RU']],
+        ['UL', ['UL', 'LU']],
+        ['FR', ['FR', 'RF']],
+        ['FL', ['FL', 'LF']],
+        ['DF', ['DF', 'FD']],
+        ['DB', ['DB', 'BD']],
+        ['DR', ['DR', 'RD']],
+        ['DL', ['DL', 'LD']],
+        ['BR', ['BR', 'RB']],
+        ['BL', ['BL', 'LB']],
+    ])
+     
 
     function canonify_sticker_names(targets) {
         for (let i in targets) {
@@ -270,33 +349,49 @@ function search_alg(input, puzzle, alg_type) {
                 targets[i] = SYNONYM_TO_STICKER.get(target);
             }
         }
-    }
-
-    function canonify_target_orientations(targets) {
-        //TOOD implement
-        return
+        return targets;
     }
 
     function canonify_target_orders(targets) {
-        //TODO implement
-        return
+        let targets_idx = targets.map((x) => CANONICAL_PIECE_ORDER.indexOf(x));
+        let min_idx = targets_idx.indexOf(Math.min(...targets_idx));
+        return targets.slice(min_idx).concat(targets.slice(0, min_idx));
     }
+    
+    function canonify_target_orientations(targets) {
+        //assumes that the targets are in canonical order already
+        let buffer = targets[0];
+        if (CANONICAL_PIECE_ORIENTATION_MAP.has(buffer)) {
+            let [canonical_piece, shift] = CANONICAL_PIECE_ORIENTATION_MAP.get(buffer);
+            
+            targets = targets.map(target => CANONICAL_PIECE_ORIENTATION_CYCLE.get(CANONICAL_PIECE_ORIENTATION_MAP.get(target)[0])[(CANONICAL_PIECE_ORIENTATION_CYCLE.get(CANONICAL_PIECE_ORIENTATION_MAP.get(target)[0]).indexOf(target) + shift) % CANONICAL_PIECE_ORIENTATION_CYCLE.get(CANONICAL_PIECE_ORIENTATION_MAP.get(target)[0]).length] )
+        }
+
+        return targets;
+    }
+
+    targets = canonify_sticker_names(targets);
+    targets = canonify_target_orders(targets);
+    targets = canonify_target_orientations(targets);
+    return targets;
+    
+}
+
+
+
+function search_alg(input, puzzle, alg_type) {
     
     function canonify_input_comm(comm_input) {
         comm_input = comm_input.trim();
         let targets = comm_input.split("-");
-        canonify(targets);
-
-        return targets;
+        return canonify(targets);
     }
     function canonify_input_parity(parity_input) {
         parity_input = parity_input.trim();
         let tmp_re = /^([UDFBRLudfbrl]{2}-[UDFBRLudfbrl]{2}) ([UDFBRLudfbrl]{3}-[UDFBRLudfbrl]{3})$/
         parity_input = parity_input.replace(tmp_re, "$2 $1");
-        let targets = parity_input.replace(" ", "-").split("-");
-        canonify(targets);
-        
-        return targets;
+        let [corner_targets, edge_targets] = parity_input.split(" ");
+        return canonify(corner_targets).concat(canonify(edge_targets));
     }
 
     let targets = [];
@@ -314,9 +409,11 @@ function search_alg(input, puzzle, alg_type) {
     } else {
         return Error(`Unrecognized algorithm type.`)
     }
+    // console.log("Canonified targets: ", targets);
 
     try {
         let query = [puzzle].concat(targets);
+        // console.log("Full query: ", query);
 
         let alg = main_db.get(query);
 

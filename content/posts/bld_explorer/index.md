@@ -36,8 +36,8 @@ Examples:
 You can explicitly put the puzzle name in brackets (e.g. [4x4], [3x3x3]) in front of the commutator. This is necessary in cases of ambiguity - like between edges on a 3x3 or midges on a 5x5. It may also be useful to visualize an algorithm on a different cube, like with corner commutators on different puzzles. If the puzzle name is not specified, the smallest possible cube is used by default.
 
 Example:
-* [5x5] `UF-UR-BD` will query the 5x5 commutator for the UF buffer with `UR` as the first target and `BD` as the second target. This commutator was used in an example earlier, but we need to specify that we are using a 5x5 since the 5x5 midge commutator is different than the 3x3 edge commutator.
-* [4x4] `Ufr-Dfl-Bul` will query the 4x4 center commutator with a `Ufr` buffer, `Dfl` as the first target, and `Bul` as the second target. 
+* `[5x5] UF-UR-BD` will query the 5x5 commutator for the UF buffer with `UR` as the first target and `BD` as the second target. This commutator was used in an example earlier, but we need to specify that we are using a 5x5 since the 5x5 midge commutator is different than the 3x3 edge commutator.
+* `[4x4] Ufr-Dfl-Bul` will query the 4x4 center commutator with a `Ufr` buffer, `Dfl` as the first target, and `Bul` as the second target. 
 
 ### Searching Parity
 For blindfolded methods, parity happens when we have 2 edges that need to be swapped with each other and 2 corners that need to be swapped with each other (2e2c). Search parity algorithms with the template `[A]-[B] [C]-[D]`. 
@@ -46,8 +46,6 @@ Example:
 * `UFR-UBR UF-UR` will query the parity algorithm that swaps the corners `UFR` and `UBR` and swaps the edges `UF` and `UR`. This is a J perm.
 
 
-As of July 4, 2024, you **must** put buffer pieces first in the cycle and use normal buffer orientations (U/D layer sticker, or F/B layer for some edges) for this tool to work. I may try to allow mixing up the cycle order and using different buffer orientations later.
-
 ### Things I want to add to this page eventually
-* The ability to search up parity algorithms (2e2c), flips, and twists. 2e2e, 2c2c would also be nice. 
+* The ability to search up flips, and twists. 2e2e, 2c2c would also be nice. 
 * The ability to search up commutators using Speffz or a custom piece-name mapping.
